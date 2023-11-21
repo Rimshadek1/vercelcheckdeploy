@@ -9,7 +9,7 @@ export function UserContextProvider({ children }) {
     const [id, setId] = useState(null);
     const navigate = useNavigate();
     useEffect(() => {
-        axios.get('https://vercelcheckdeploy.vercel.app/profile', {
+        axios.get('/profile', {
             headers: {
                 Authorization: `Bearer ${authToken}`,
             },

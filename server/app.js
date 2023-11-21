@@ -13,14 +13,13 @@ const createError = require('http-errors');
 const app = express();
 app.use(cors({
     origin: 'https://vercelcheckdeploy.vercel.app',
-    methods: ['GET', 'POST', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'POST', 'DELETE'],
     credentials: true
 }));
 
 
 
 app.use('/public', express.static(__dirname + '/public'));
-app.options('*', cors());
 
 app.use(logger('dev'));
 app.use(express.json());
