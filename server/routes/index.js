@@ -82,7 +82,10 @@ const verifyService = (req, res, next) => {
         });
     }
 };
-
+//router check
+router.use('/', (req, res) => {
+    res.send("success")
+})
 
 //routers users
 
