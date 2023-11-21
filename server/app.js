@@ -12,7 +12,7 @@ const createError = require('http-errors');
 
 const app = express();
 app.use(cors({
-    origin: 'https://vercelcheckdeploy-4gee.vercel.app',
+    origin: 'https://vercelcheckdeploy-4gee.vercel.app/',
     methods: ['GET', 'POST', 'DELETE'],
     credentials: true
 }));
