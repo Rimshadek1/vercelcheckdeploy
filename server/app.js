@@ -16,7 +16,9 @@ app.use(cors({
     methods: ['GET', 'POST', 'DELETE'],
     credentials: true
 }));
-
+app.post('/login', (req, res) => {
+    res.send("ok")
+});
 
 app.use('/public', express.static(__dirname + '/public'));
 
