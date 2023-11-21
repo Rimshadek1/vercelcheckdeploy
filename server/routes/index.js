@@ -165,6 +165,7 @@ router.get('/profile', (req, res) => {
         })
     } else {
         res.status(401).json('no token')
+        res.send('no token')
     }
 })
 router.post('/sendotp', (req, res) => {

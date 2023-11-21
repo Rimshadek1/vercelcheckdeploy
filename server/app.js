@@ -16,9 +16,7 @@ app.use(cors({
     methods: ['GET', 'POST', 'DELETE'],
     credentials: true
 }));
-app.get('/profile', (req, res) => {
-    res.send("okya")
-})
+
 
 
 app.use('/public', express.static(__dirname + '/public'));
