@@ -1,4 +1,3 @@
-const express = require('express');
 // const cors = require('cors');
 // const cookieParser = require('cookie-parser');
 // const bodyParser = require('body-parser');
@@ -8,9 +7,25 @@ const express = require('express');
 // const indexRouter = require('./routes/index');
 // const db = require('./config/connection');
 // const createError = require('http-errors');
+const express = require('express');
 
 
 const app = express();
+app.use('/', (req, res) => {
+    res.send("server is runninnng")
+})
+
+
+
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+    next(createError(404));
+});
+
+// const Port = process.env.PORT
+app.listen(3000, () => {
+    console.log(`Server is running at ${3000}`);
+});
 // app.use(cors({
 //     origin: ['https://tafcon-og.vercel.app'],
 //     methods: ['GET', 'POST', 'DELETE'],
@@ -27,21 +42,6 @@ const app = express();
 // app.use('/', indexRouter);
 // app.use(bodyParser.json());
 // require('dotenv').config();
-app.use('/', (req, res) => {
-    res.send("server is running")
-})
-
-
-
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-    next(createError(404));
-});
-
-// const Port = process.env.PORT
-app.listen(3000, () => {
-    console.log(`Server is running at ${3000}`);
-});
 
 // db.connect((err) => {
 //     if (err)
