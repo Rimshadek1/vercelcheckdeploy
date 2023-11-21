@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const path = require('path');
 const fileUpload = require('express-fileupload');
-const indexRouter = require('./routes/index');
+// const indexRouter = require('./routes/index');
 const db = require('./config/connection');
 const createError = require('http-errors');
 
@@ -24,16 +24,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload());
-app.use('/', indexRouter);
+// app.use('/', indexRouter);
 app.use(bodyParser.json());
 require('dotenv').config();
+app.use('/', (req, res) => {
+    res.send("server is running")
+})
 
-// Making Build Folder as Public 
-app.use(express.static('static'));
-
-app.get('*', function (req, res) {
-    res.sendFile(path.join(__dirname, 'static/index.html'));
-});
 
 
 // catch 404 and forward to error handler
