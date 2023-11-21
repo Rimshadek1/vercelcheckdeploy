@@ -83,10 +83,7 @@ const verifyService = (req, res, next) => {
     }
 };
 
-//check
-router.get('/', (req, res) => {
-    res.send("server is runnning")
-})
+
 //routers users
 
 router.post('/register', async (req, res) => {
