@@ -38,9 +38,9 @@ app.use(function (req, res, next) {
     next(createError(404));
 });
 
-const Port = process.env.PORT
+// const Port = process.env.PORT
 app.listen(3000, () => {
-    console.log(`Server is running at ${Port}`);
+    console.log(`Server is running at ${3000}`);
 });
 
 // db.connect((err) => {
