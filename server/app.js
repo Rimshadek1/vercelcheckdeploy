@@ -12,10 +12,12 @@ const express = require('express');
 
 const app = express();
 app.get('/', (req, res) => {
-    res.send("server is runninnng")
-})
+    res.send("server is running");
+});
 
 
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -37,7 +39,6 @@ app.listen(3000, () => {
 // app.use(express.json());
 // app.use(express.urlencoded({ extended: false }));
 // app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 // app.use(fileUpload());
 // app.use('/', indexRouter);
 // app.use(bodyParser.json());
