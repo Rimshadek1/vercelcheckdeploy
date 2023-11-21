@@ -18,6 +18,7 @@ app.use(cors({
 }));
 
 app.use('/public', express.static(__dirname + '/public'));
+app.options('*', cors());
 
 app.use(logger('dev'));
 app.use(express.json());
