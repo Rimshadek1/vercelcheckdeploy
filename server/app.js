@@ -12,16 +12,11 @@ const createError = require('http-errors');
 
 const app = express();
 app.use(cors({
-    origin: '*',
+    origin: 'https://vercelcheckdeploy.vercel.app',
     methods: ['GET', 'POST', 'DELETE', 'OPTIONS'],
     credentials: true
 }));
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, DELETE');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-});
+
 
 
 app.use('/public', express.static(__dirname + '/public'));
