@@ -16,9 +16,6 @@ app.use(cors({
     methods: ['GET', 'POST', 'DELETE'],
     credentials: true
 }));
-app.post('/login', (req, res) => {
-    res.send("ok")
-});
 
 app.use('/public', express.static(__dirname + '/public'));
 
@@ -32,12 +29,7 @@ app.use('/', indexRouter);
 app.use(bodyParser.json());
 require('dotenv').config();
 
-// Making Build Folder as Public 
-// app.use(express.static('static'));
 
-// app.get('*', function (req, res) {
-//     res.sendFile(path.join(__dirname, 'static/index.html'));
-// });
 
 
 // catch 404 and forward to error handler

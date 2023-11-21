@@ -85,7 +85,7 @@ const verifyService = (req, res, next) => {
 
 //check
 router.use('/', (req, res) => {
-    res.send("server is running")
+    res.send("server is runnning")
 })
 //routers users
 
