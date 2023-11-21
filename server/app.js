@@ -13,7 +13,7 @@ const createError = require('http-errors');
 const app = express();
 app.use(cors({
     origin: '*',
-    methods: ['GET', 'POST', 'DELETE'],
+    methods: ['GET', 'POST', 'DELETE', 'OPTIONS'],
     credentials: true
 }));
 
