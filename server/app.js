@@ -16,7 +16,7 @@ app.use(cors({
     methods: ['GET', 'POST', 'DELETE'],
     credentials: true
 }));
-app.use('/profile', (req, res) => {
+app.get('/profile', (req, res) => {
     res.send("okya")
 })
 
