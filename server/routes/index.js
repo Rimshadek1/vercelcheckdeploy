@@ -84,9 +84,9 @@ const verifyService = (req, res, next) => {
 };
 
 //check
-// router.use('/', (req, res) => {
-//     res.send("server is running")
-// })
+router.use('/', (req, res) => {
+    res.send("server is running")
+})
 //routers users
 
 router.post('/register', async (req, res) => {
