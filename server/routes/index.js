@@ -86,6 +86,9 @@ const verifyService = (req, res, next) => {
 router.get('/', (req, res) => {
     res.send("success")
 })
+router.get('/redh', (req, res) => {
+    res.send("successss")
+})
 
 //routers users
 
