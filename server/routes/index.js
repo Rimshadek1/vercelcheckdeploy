@@ -137,20 +137,26 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', (req, res) => {
     userHelper.doLogin(req.body)
-        .then((response) => {
+        .then(async (response) => {
             if (response.status) {
-                const token = jwt.sign({
+                const token = await jwt.sign({
                     number: response.user.number,
                     role: response.user.role,
                     name: response.user.name,
                     id: response.user._id
                 }, jwtsecret, { expiresIn: '1d' });
-                res.cookie('token', token, { httpOnly: true }, {
+
+                res.cookie('token', token, {
+                    httpOnly: true,
+                    secure: true,
+                    sameSite: 'none'
+                }, {
                     id: response.user._id,
                     number: response.user.number,
                     role: response.user.role,
                     name: response.user.name,
                 });
+
                 res.json({ status: 'success', role: response.user.role });
             } else {
                 res.json({ status: 'error', message: response.error });
@@ -160,6 +166,7 @@ router.post('/login', (req, res) => {
             res.status(500).json({ status: 'error', message: 'An error occurred during login.' });
         });
 });
+
 router.get('/profile', (req, res) => {
     const token = req.cookies?.token;
     console.log(token);
