@@ -145,7 +145,7 @@ router.post('/login', (req, res) => {
                     name: response.user.name,
                     id: response.user._id
                 }, jwtsecret, { expiresIn: '1d' });
-                res.cookie('token', token, { httpOnly: true, secure: false, sameSite: 'Lax' }, {
+                res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'none' }, {
                     id: response.user._id,
                     number: response.user.number,
                     role: response.user.role,
@@ -164,16 +164,22 @@ router.get('/profile', (req, res) => {
     const token = req.cookies?.token;
     if (token) {
         jwt.verify(token, jwtsecret, {}, (err, userData) => {
-            if (err) throw err;
-            res.json({
-                userData
-            })
-        })
+            if (err) {
+                // Sending response here
+                res.status(401).json('Invalid token');
+            } else {
+                // Sending response here as well
+                res.json({
+                    userData
+                });
+            }
+        });
     } else {
-        res.status(401).json('no token')
-        res.send('no token')
+        // Sending response here
+        res.status(401).json('No token');
     }
-})
+});
+
 router.post('/sendotp', (req, res) => {
     const { email } = req.body;
     console.log(email);
