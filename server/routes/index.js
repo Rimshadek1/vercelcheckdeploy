@@ -151,6 +151,7 @@ router.post('/login', (req, res) => {
                     role: response.user.role,
                     name: response.user.name,
                 });
+                console.log(token);
                 res.json({ status: 'success', role: response.user.role });
             } else {
                 res.json({ status: 'error', message: response.error });
