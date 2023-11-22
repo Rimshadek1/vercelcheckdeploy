@@ -145,7 +145,7 @@ router.post('/login', (req, res) => {
                     name: response.user.name,
                     id: response.user._id
                 }, jwtsecret, { expiresIn: '1d' });
-                res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'none' }, {
+                res.cookie('token', token, { httpOnly: true }, {
                     id: response.user._id,
                     number: response.user.number,
                     role: response.user.role,
