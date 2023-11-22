@@ -151,7 +151,6 @@ router.post('/login', (req, res) => {
                     role: response.user.role,
                     name: response.user.name,
                 });
-                console.log(token);
                 res.json({ status: 'success', role: response.user.role });
             } else {
                 res.json({ status: 'error', message: response.error });
@@ -163,6 +162,7 @@ router.post('/login', (req, res) => {
 });
 router.get('/profile', (req, res) => {
     const token = req.cookies?.token;
+    console.log(token);
     if (token) {
         jwt.verify(token, jwtsecret, {}, (err, userData) => {
             if (err) {
