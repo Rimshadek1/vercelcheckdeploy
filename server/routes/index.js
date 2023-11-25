@@ -150,6 +150,7 @@ router.post('/login', (req, res) => {
                     httpOnly: true,
                     secure: true, // Add the Secure attribute
                     sameSite: 'None',
+                    domain: 'vercelcheckdeploy-front.vercel.app',
                     id: response.user._id,
                     number: response.user.number,
                     role: response.user.role,
@@ -176,8 +177,7 @@ router.post('/login', (req, res) => {
 
 
 router.get('/profile', (req, res) => {
-    console.log(req.headers);  // Log the headers
-    console.log(req.cookies);  // Log the cookies
+    console.log(req.cookies);
     const token = req.cookies?.token;
     console.log(token);
     if (token) {
