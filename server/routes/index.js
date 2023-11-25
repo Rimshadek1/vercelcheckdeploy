@@ -146,34 +146,26 @@ router.post('/login', (req, res) => {
                     id: response.user._id
                 }, jwtsecret, { expiresIn: '1d' });
 
-                const cookieOptions = {
+                res.cookie('token', token, {
                     httpOnly: true,
                     secure: true,
                     sameSite: 'none'
-                };
+                }, {
+                    id: response.user._id,
+                    number: response.user.number,
+                    role: response.user.role,
+                    name: response.user.name,
+                });
 
-                try {
-                    res.cookie('token', token, cookieOptions);
-
-                    res.json({ status: 'success', role: response.user.role });
-                } catch (cookieError) {
-                    console.error('Error setting cookie:', cookieError);
-
-                    res.json({ status: 'error', message: 'Error setting cookie.' });
-                }
+                res.json({ status: 'success', role: response.user.role });
             } else {
-                console.error('Error during login:', response.error);
-
                 res.json({ status: 'error', message: response.error });
             }
         })
         .catch((error) => {
-            console.error('An error occurred during login:', error);
-
             res.status(500).json({ status: 'error', message: 'An error occurred during login.' });
         });
 });
-
 
 
 
