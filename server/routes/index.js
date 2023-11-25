@@ -148,8 +148,8 @@ router.post('/login', (req, res) => {
 
                 const cookieOptions = {
                     httpOnly: true,
-                    secure: true,
-                    sameSite: 'none',
+                    secure: true, // Add the Secure attribute
+                    sameSite: 'None',
                     id: response.user._id,
                     number: response.user.number,
                     role: response.user.role,
@@ -158,7 +158,6 @@ router.post('/login', (req, res) => {
 
                 res.cookie('token', token, cookieOptions);
 
-                // Log details of the res.cookie method
                 console.log('Cookie set:', 'token', token, cookieOptions);
 
                 res.json({ status: 'success', role: response.user.role });
@@ -170,6 +169,7 @@ router.post('/login', (req, res) => {
             res.status(500).json({ status: 'error', message: 'An error occurred during login.' });
         });
 });
+
 
 
 
