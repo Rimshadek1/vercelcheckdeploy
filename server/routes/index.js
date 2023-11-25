@@ -479,6 +479,8 @@ router.get('/isBooked', (req, res) => {
 //admin routers
 
 router.get('/viewevents', verifyAdmin, (req, res) => {
+    const token = req.cookies.token;
+    console.log(token);
     res.status(200).send('please_reload');
 });
 
