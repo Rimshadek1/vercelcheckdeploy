@@ -47,7 +47,7 @@ const verifyUser = (req, res, next) => {
 const verifyAdmin = (req, res, next) => {
     const token = req.cookies.token;
     if (!token) {
-        return res.json({ error: 'Token is missing' });
+        return res.json({ error: 'Token is missing' })
     } else {
         jwt.verify(token, jwtsecret, (err, decoded) => {
             if (err) {
@@ -146,30 +146,34 @@ router.post('/login', (req, res) => {
                     id: response.user._id
                 }, jwtsecret, { expiresIn: '1d' });
 
-                // Combine token with additional user information
-                const cookieValue = JSON.stringify({
-                    id: response.user._id,
-                    number: response.user.number,
-                    role: response.user.role,
-                    name: response.user.name,
-                    token: token
-                });
-
-                res.cookie('user_info', cookieValue, {
+                const cookieOptions = {
                     httpOnly: true,
                     secure: true,
                     sameSite: 'none'
-                });
+                };
+
+                res.cookie('token', token, cookieOptions);
+
+                // Check if the Set-Cookie header is present
+                const setCookieHeader = res.get('Set-Cookie');
+                if (setCookieHeader) {
+                    console.log('Cookie set successfully:', setCookieHeader);
+                }
 
                 res.json({ status: 'success', role: response.user.role });
             } else {
+                console.error('Error during login:', response.error);
+
                 res.json({ status: 'error', message: response.error });
             }
         })
         .catch((error) => {
+            console.error('An error occurred during login:', error);
+
             res.status(500).json({ status: 'error', message: 'An error occurred during login.' });
         });
 });
+
 
 
 
