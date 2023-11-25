@@ -11,11 +11,17 @@ const createError = require('http-errors');
 
 
 const app = express();
-app.use(cors({
+const corsOptions = {
     origin: 'https://vercelcheckdeploy-front.vercel.app',
     methods: ['GET', 'POST', 'DELETE'],
-    credentials: true
-}));
+    credentials: true,
+    optionsSuccessStatus: 204, // For preflight requests
+    allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+app.use(cors(corsOptions));
+
+
 
 
 
