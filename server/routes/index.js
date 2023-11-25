@@ -155,14 +155,6 @@ router.post('/login', (req, res) => {
                 try {
                     res.cookie('token', token, cookieOptions);
 
-                    // Check if the Set-Cookie header is present
-                    const setCookieHeader = res.get('Set-Cookie');
-                    if (setCookieHeader) {
-                        console.log('Cookie set successfully:', setCookieHeader);
-                    } else {
-                        console.error('Error: Set-Cookie header not found in the response.');
-                    }
-
                     res.json({ status: 'success', role: response.user.role });
                 } catch (cookieError) {
                     console.error('Error setting cookie:', cookieError);
