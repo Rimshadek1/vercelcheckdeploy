@@ -152,15 +152,23 @@ router.post('/login', (req, res) => {
                     sameSite: 'none'
                 };
 
-                res.cookie('token', token, cookieOptions);
+                try {
+                    res.cookie('token', token, cookieOptions);
 
-                // Check if the Set-Cookie header is present
-                const setCookieHeader = res.get('Set-Cookie');
-                if (setCookieHeader) {
-                    console.log('Cookie set successfully:', setCookieHeader);
+                    // Check if the Set-Cookie header is present
+                    const setCookieHeader = res.get('Set-Cookie');
+                    if (setCookieHeader) {
+                        console.log('Cookie set successfully:', setCookieHeader);
+                    } else {
+                        console.error('Error: Set-Cookie header not found in the response.');
+                    }
+
+                    res.json({ status: 'success', role: response.user.role });
+                } catch (cookieError) {
+                    console.error('Error setting cookie:', cookieError);
+
+                    res.json({ status: 'error', message: 'Error setting cookie.' });
                 }
-
-                res.json({ status: 'success', role: response.user.role });
             } else {
                 console.error('Error during login:', response.error);
 
@@ -173,6 +181,7 @@ router.post('/login', (req, res) => {
             res.status(500).json({ status: 'error', message: 'An error occurred during login.' });
         });
 });
+
 
 
 
