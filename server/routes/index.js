@@ -148,8 +148,7 @@ router.post('/login', (req, res) => {
 
                 res.cookie('token', token, {
                     httpOnly: true,
-                    secure: true,
-                    sameSite: 'none'
+                    secure: true
                 }, {
                     id: response.user._id,
                     number: response.user.number,
