@@ -146,14 +146,19 @@ router.post('/login', (req, res) => {
                     id: response.user._id
                 }, jwtsecret, { expiresIn: '1d' });
 
-                res.cookie('token', token, {
-                    httpOnly: true,
-                    secure: true
-                }, {
+                // Combine token with additional user information
+                const cookieValue = JSON.stringify({
                     id: response.user._id,
                     number: response.user.number,
                     role: response.user.role,
                     name: response.user.name,
+                    token: token
+                });
+
+                res.cookie('user_info', cookieValue, {
+                    httpOnly: true,
+                    secure: true,
+                    sameSite: 'none'
                 });
 
                 res.json({ status: 'success', role: response.user.role });
@@ -165,6 +170,8 @@ router.post('/login', (req, res) => {
             res.status(500).json({ status: 'error', message: 'An error occurred during login.' });
         });
 });
+
+
 
 router.get('/profile', (req, res) => {
     const token = req.cookies?.token;
