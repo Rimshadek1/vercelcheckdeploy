@@ -176,6 +176,8 @@ router.post('/login', (req, res) => {
 
 
 router.get('/profile', (req, res) => {
+    console.log(req.headers);  // Log the headers
+    console.log(req.cookies);  // Log the cookies
     const token = req.cookies?.token;
     console.log(token);
     if (token) {
