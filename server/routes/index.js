@@ -82,13 +82,7 @@ const verifyService = (req, res, next) => {
         });
     }
 };
-//router check
-router.get('/', (req, res) => {
-    res.send("success")
-})
-router.get('/redh', (req, res) => {
-    res.send("successss")
-})
+
 
 //routers users
 
@@ -181,7 +175,7 @@ router.post('/login', (req, res) => {
 
 
 
-router.get('/profile', (req, res) => {
+router.get('/profile', verifyUser, (req, res) => {
     console.log(req.cookies);
     try {
 
