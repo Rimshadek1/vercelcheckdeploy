@@ -148,8 +148,8 @@ router.post('/login', (req, res) => {
 
                 const cookieOptions = {
                     httpOnly: true,
-                    secure: true, // Add the Secure attribute
-                    sameSite: 'None', // Change this to 'Lax'
+                    secure: true,
+                    sameSite: 'None',
                     id: response.user._id,
                     number: response.user.number,
                     role: response.user.role,
@@ -159,11 +159,11 @@ router.post('/login', (req, res) => {
                 try {
 
                     res.cookie('token', token, cookieOptions);
+                    console.log('Cookie set:', 'token', token, cookieOptions);
                 } catch (error) {
                     console.log(error);
                 }
 
-                console.log('Cookie set:', 'token', token, cookieOptions);
 
                 res.json({ status: 'success', role: response.user.role });
             } else {
