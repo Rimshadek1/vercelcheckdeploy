@@ -149,12 +149,13 @@ router.post('/login', (req, res) => {
                 const cookieOptions = {
                     httpOnly: true,
                     secure: true, // Add the Secure attribute
-                    sameSite: 'None',
+                    sameSite: 'Lax', // Change this to 'Lax'
                     id: response.user._id,
                     number: response.user.number,
                     role: response.user.role,
                     name: response.user.name
                 };
+
 
                 res.cookie('token', token, cookieOptions);
 
@@ -176,8 +177,6 @@ router.post('/login', (req, res) => {
 
 
 router.get('/profile', (req, res) => {
-    res.header('Access-Control-Allow-Origin', 'https://vercelcheckdeploy-front.vercel.app');
-    res.header('Access-Control-Allow-Credentials', true);
     console.log(req.cookies);
     const token = req.cookies?.token;
     console.log(token);
