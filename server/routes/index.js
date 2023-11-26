@@ -176,7 +176,8 @@ router.post('/login', (req, res) => {
 
 
 router.get('/profile', verifyUser, (req, res) => {
-    console.log(req.cookies);
+    console.log('Request object:', req);
+    console.log('Cookies:', req.cookies);
     try {
 
         const token = req.cookies?.token;
