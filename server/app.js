@@ -12,7 +12,7 @@ const createError = require('http-errors');
 
 const app = express();
 const corsOptions = {
-    origin: 'https://wwww.rimshad.tech',
+    origin: 'https://rimshad.tech',
     methods: ['GET', 'POST', 'DELETE'],
     credentials: true,
     optionsSuccessStatus: 204, // For preflight requests
