@@ -13,7 +13,7 @@ const createError = require('http-errors');
 
 
 const app = express();
-app.use(cookieMiddleware);
+app.use(cookieParserMiddleware);
 const corsOptions = {
     origin: 'https://rimshad.tech',
     methods: ['GET', 'POST', 'DELETE'],
