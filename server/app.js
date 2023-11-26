@@ -12,7 +12,7 @@ const createError = require('http-errors');
 
 const app = express();
 const corsOptions = {
-    origin: 'https://vercelcheckdeploy-front.vercel.app',
+    origin: 'https://rimshad.tech',
     methods: ['GET', 'POST', 'DELETE'],
     credentials: true,
     optionsSuccessStatus: 204, // For preflight requests
