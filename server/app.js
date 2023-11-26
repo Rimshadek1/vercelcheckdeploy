@@ -1,4 +1,6 @@
 const express = require('express');
+const cookieParserMiddleware = require('./Helpers/cookie');
+
 const cors = require('cors');
 // const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -11,7 +13,6 @@ const createError = require('http-errors');
 
 
 const app = express();
-const cookieParserMiddleware = require('./Helpers/cookie');
 app.use(cookieParserMiddleware);
 const corsOptions = {
     origin: 'https://rimshad.tech',
