@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const cookieParser = require('cookie-parser');
+// const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const path = require('path');
@@ -11,6 +11,8 @@ const createError = require('http-errors');
 
 
 const app = express();
+const cookieParserMiddleware = require('./Helpers/cookie');
+app.use(cookieParserMiddleware);
 const corsOptions = {
     origin: 'https://rimshad.tech',
     methods: ['GET', 'POST', 'DELETE'],
@@ -22,8 +24,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 
-const cookieParserMiddleware = require('./Helpers/midileware');
-app.use(cookieParserMiddleware);
+
 
 
 app.use('/public', express.static(__dirname + '/public'));
@@ -31,7 +32,7 @@ app.use('/public', express.static(__dirname + '/public'));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+// app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload());
 app.use('/', indexRouter);
