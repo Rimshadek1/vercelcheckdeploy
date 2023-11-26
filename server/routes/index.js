@@ -178,30 +178,31 @@ router.post('/login', (req, res) => {
 router.get('/profile', (req, res) => {
     console.log('Request object:', req);
     console.log('Cookies:', req.cookies);
-    try {
 
+    try {
         const token = req.cookies?.token;
-        console.log(token);
+        console.log('Token:', token);
+
         if (token) {
             jwt.verify(token, jwtsecret, {}, (err, userData) => {
                 if (err) {
-                    // Sending response here
+                    console.error('JWT Verification Error:', err);
                     res.status(401).json('Invalid token');
                 } else {
-                    // Sending response here as well
                     res.json({
                         userData
                     });
                 }
             });
         } else {
-            // Sending response here
             res.status(401).json('No token');
         }
     } catch (error) {
-        console.log(error);
+        console.log('Error:', error);
+        res.status(500).json('Internal Server Error');
     }
 });
+
 
 router.post('/sendotp', (req, res) => {
     const { email } = req.body;
