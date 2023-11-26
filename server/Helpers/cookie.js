@@ -1,6 +1,7 @@
 const cookieParser = require('cookie-parser');
 const jwtsecret = process.env.JWTSECRET
-
+const express = require('express');
+const app = express();
 app.use((req, res, next) => {
     console.log('Request cookies:', req.cookies);
 
