@@ -156,8 +156,12 @@ router.post('/login', (req, res) => {
                     name: response.user.name
                 };
 
+                try {
 
-                res.cookie('token', token, cookieOptions);
+                    res.cookie('token', token, cookieOptions);
+                } catch (error) {
+                    console.log(error);
+                }
 
                 console.log('Cookie set:', 'token', token, cookieOptions);
 
