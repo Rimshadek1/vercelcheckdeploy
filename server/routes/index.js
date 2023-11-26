@@ -177,6 +177,8 @@ router.post('/login', (req, res) => {
 
 
 router.get('/profile', (req, res) => {
+    res.header('Access-Control-Allow-Origin', 'https://vercelcheckdeploy-front.vercel.app');
+    res.header('Access-Control-Allow-Credentials', true);
     console.log(req.cookies);
     const token = req.cookies?.token;
     console.log(token);
