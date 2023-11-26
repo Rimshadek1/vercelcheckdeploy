@@ -150,7 +150,6 @@ router.post('/login', (req, res) => {
                     httpOnly: true,
                     secure: true, // Add the Secure attribute
                     sameSite: 'None',
-                    domain: 'vercelcheckdeploy-front.vercel.app',
                     id: response.user._id,
                     number: response.user.number,
                     role: response.user.role,

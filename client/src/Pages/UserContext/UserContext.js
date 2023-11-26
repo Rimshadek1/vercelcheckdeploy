@@ -13,6 +13,8 @@ export function UserContextProvider({ children }) {
             headers: {
                 Authorization: `Bearer ${authToken}`,
             },
+            withCredentials: true,
+
         }).then(response => {
             if (response.data) {
 
