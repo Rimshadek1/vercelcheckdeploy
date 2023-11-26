@@ -180,7 +180,7 @@ router.get('/profile', (req, res) => {
     console.log('Cookies:', req.cookies);
 
     try {
-        const token = req.cookies?.token;
+        const token = req.cookies.token; // Remove the optional chaining
         console.log('Token:', token);
 
         if (token) {
@@ -189,6 +189,7 @@ router.get('/profile', (req, res) => {
                     console.error('JWT Verification Error:', err);
                     res.status(401).json('Invalid token');
                 } else {
+                    console.log('Decoded User Data:', userData);
                     res.json({
                         userData
                     });
@@ -202,6 +203,7 @@ router.get('/profile', (req, res) => {
         res.status(500).json('Internal Server Error');
     }
 });
+
 
 
 router.post('/sendotp', (req, res) => {
