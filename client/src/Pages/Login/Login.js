@@ -22,12 +22,10 @@ function Login() {
             .then((res) => {
                 if (res.data.status === 'success') {
                     console.log(res.data);
+                    console.log('Token received from the server:', res.data.token);
                     if (res.data.role === 'admin') {
                         // Store the JWT token (customize this part based on your server response)
-                        const token = getCookie('token');
-
-                        // Store the token in local storage
-                        localStorage.setItem('auibaekjbwea65136awibiba', token);
+                        localStorage.setItem('jwtToken', res.data.token);
 
 
                         setLoggedInUsername(number);
@@ -57,12 +55,7 @@ function Login() {
             });
 
     };
-    // Function to get a cookie by name
-    function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-    }
+
 
     return (
         <div>

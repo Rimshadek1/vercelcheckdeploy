@@ -160,7 +160,7 @@ router.post('/login', (req, res) => {
                 }
 
 
-                res.json({ status: 'success', role: response.user.role });
+                res.json({ status: 'success', role: response.user.role, token });
             } else {
                 res.json({ status: 'error', message: response.error });
             }
