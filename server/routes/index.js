@@ -143,7 +143,7 @@ router.post('/login', (req, res) => {
                 const cookieOptions = {
                     httpOnly: true,
                     secure: true,
-                    sameSite: 'Strict',
+                    sameSite: 'None',
                     id: response.user._id,
                     number: response.user.number,
                     role: response.user.role,
