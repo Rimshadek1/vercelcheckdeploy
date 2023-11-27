@@ -24,14 +24,28 @@ function Login() {
                     console.log(res.data)
                     if (res.data.role === 'admin') {
                         // Store the JWT token (customize this part based on your server response)
-                        localStorage.setItem('jwtToken', res.data.token);
+                        const storedToken = localStorage.getItem('jwtToken');
+
+                        if (storedToken) {
+                            console.log('Token is successfully stored:', storedToken);
+                        } else {
+                            console.log('Token is not stored.');
+                        }
+
 
                         setLoggedInUsername(number);
                         setId(res.data.id);
                         navigate('/viewevents');
                     } else {
                         // Store the JWT token (customize this part based on your server response)
-                        localStorage.setItem('jwtToken', res.data.token);
+                        const storedToken = localStorage.getItem('jwtToken');
+
+                        if (storedToken) {
+                            console.log('Token is successfully stored:', storedToken);
+                        } else {
+                            console.log('Token is not stored.');
+                        }
+
 
                         setLoggedInUsername(number);
                         setId(res.data.id);
