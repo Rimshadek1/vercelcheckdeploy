@@ -169,7 +169,20 @@ router.post('/login', (req, res) => {
             res.status(500).json({ status: 'error', message: 'An error occurred during login.' });
         });
 });
+router.get('/get-image/:userId', async (req, res) => {
+    const userId = req.params.userId;
 
+    const client = new MongoClient(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
+    await client.connect();
+    const db = client.db(dbName);
+
+    const bucket = new GridFSBucket(db);
+
+    // Assuming your file ID is the same as the user ID
+    const downloadStream = bucket.openDownloadStream(ObjectID(userId));
+
+    downloadStream.pipe(res);
+});
 
 
 

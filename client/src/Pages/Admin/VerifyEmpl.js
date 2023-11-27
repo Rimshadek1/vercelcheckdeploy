@@ -125,24 +125,16 @@ function VerifyEmpl() {
                                     <td>
                                         <img
                                             className={`imaged w32 pointer-cursor ${zoomed === users._id ? 'zoom-image zoomed' : ''}`}
-                                            src={`/Profile-pictures/${users._id}.png`} // PNG image URL
-                                            onError={(e) => {
-                                                e.target.onerror = null; // Prevent infinite loop
-                                                e.target.src = `/Profile-pictures/${users._id}.jpg`; // Try JPG if PNG fails
-                                            }}
-                                            onClick={() => handleImageClick(users._id)} // Handle image click
+                                            src={`/get-image/${users._id}`} // Fetch image from the new endpoint
+                                            onClick={() => handleImageClick(users._id)}
                                             alt={`${users.name}'s Profile`}
                                         />
                                     </td>
                                     <td>
                                         <img
                                             className={`imaged w32 pointer-cursor ${zoomeded === users._id ? 'zoom-image zoomed' : ''}`}
-                                            src={`/Proof/${users._id}.png`} // PNG image URL
-                                            onError={(e) => {
-                                                e.target.onerror = null; // Prevent infinite loop
-                                                e.target.src = `/Proof/${users._id}.jpg`; // Try JPG if PNG fails
-                                            }}
-                                            onClick={() => handleProofClick(users._id)} // Handle image click
+                                            src={`/get-image/${users._id}`} // Fetch image from the new endpoint
+                                            onClick={() => handleProofClick(users._id)}
                                             alt={`${users.name}'s Proof`}
                                         />
                                     </td>
