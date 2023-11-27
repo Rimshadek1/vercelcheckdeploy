@@ -27,7 +27,7 @@ function Login() {
                         const token = getCookie('token');
 
                         // Store the token in local storage
-                        localStorage.setItem('jwtToken', token);
+                        localStorage.setItem('auibaekjbwea65136awibiba', token);
 
 
                         setLoggedInUsername(number);
