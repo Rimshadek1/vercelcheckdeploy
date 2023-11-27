@@ -142,13 +142,14 @@ router.post('/login', (req, res) => {
 
                 const cookieOptions = {
                     httpOnly: true,
-                    secure: true,
+                    secure: process.env.NODE_ENV === 'production', // Set to true only in production (when using HTTPS)
                     sameSite: 'None',
                     id: response.user._id,
                     number: response.user.number,
                     role: response.user.role,
-                    name: response.user.name
+                    name: response.user.name,
                 };
+
 
                 try {
 
@@ -160,7 +161,7 @@ router.post('/login', (req, res) => {
                 }
 
 
-                res.json({ status: 'success', role: response.user.role, token });
+                res.json({ status: 'success', role: response.user.role });
             } else {
                 res.json({ status: 'error', message: response.error });
             }
