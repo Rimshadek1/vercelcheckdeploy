@@ -8,7 +8,9 @@ const otpsender = require('../Helpers/otpsender');
 const path = require('path');
 require('dotenv').config();
 const jwtsecret = process.env.JWTSECRET
-
+const mongoURI = process.env.mongoUrl;
+const dbName = 'tafcon';
+const { MongoClient, GridFSBucket } = require('mongodb');
 
 //middlewire
 const verifyUser = (req, res, next) => {
@@ -88,38 +90,39 @@ const verifyService = (req, res, next) => {
 
 router.post('/register', async (req, res) => {
     try {
-        const id = await userHelper.register(req.body)
+        const id = await userHelper.register(req.body);
+
         if (id === 'mobile_registered') {
             res.json({ error: 'Mobile number is already registered and is currently going through the verification process. Please wait until it is verified.' });
             return;
         }
+
         if (id === 'mobile_registered_and_verified') {
             res.json({ error: 'Mobile number is already registered and verified.' });
             return;
         }
 
-        let image = req.files.image;
-        let imageName = id + '.jpg';
-        if (image.mimetype === 'image/png') {
-            imageName = id + '.png';
-        }
-        const destinationDir = './public/Profile-pictures/';
-        if (!fs.existsSync(destinationDir)) {
-            fs.mkdirSync(destinationDir, { recursive: true });
-        }
-        await image.mv(destinationDir + imageName);
-        //proof
+        const image = req.files.image;
+        const imageProof = req.files.proof;
 
-        let imageProof = req.files.proof;
-        let imageNameProof = id + '.jpg';
-        if (image.mimetype === 'image/png') {
-            imageNameProof = id + '.png';
-        }
-        const destinationDirProof = './public/Proof/';
-        if (!fs.existsSync(destinationDirProof)) {
-            fs.mkdirSync(destinationDirProof, { recursive: true });
-        }
-        await imageProof.mv(destinationDirProof + imageNameProof);
+        // Connect to MongoDB
+        const client = new MongoClient(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
+        await client.connect();
+        const db = client.db(dbName);
+
+        // Create a GridFS bucket
+        const bucket = new GridFSBucket(db);
+
+        // Upload image to MongoDB using GridFS
+        const imageStream = bucket.openUploadStreamWithId(id, image.name, { contentType: image.mimetype });
+        fs.createReadStream(image.tempFilePath).pipe(imageStream);
+
+        // Upload proof to MongoDB using GridFS
+        const imageProofStream = bucket.openUploadStreamWithId(id, imageProof.name, { contentType: imageProof.mimetype });
+        fs.createReadStream(imageProof.tempFilePath).pipe(imageProofStream);
+
+        // Close the MongoDB connection
+        client.close();
 
         res.json({ status: 'success' });
 
@@ -142,7 +145,7 @@ router.post('/login', (req, res) => {
 
                 const cookieOptions = {
                     httpOnly: true,
-                    secure: process.env.NODE_ENV === 'production', // Set to true only in production (when using HTTPS)
+                    secure: true,
                     sameSite: 'None',
                     id: response.user._id,
                     number: response.user.number,
@@ -150,12 +153,8 @@ router.post('/login', (req, res) => {
                     name: response.user.name,
                 };
 
-
                 try {
-
                     res.cookie('token', token, cookieOptions);
-                    console.log('Cookie set:');
-                    console.log('Cookie set:', 'token', token, cookieOptions);
                 } catch (error) {
                     console.log(error);
                 }
