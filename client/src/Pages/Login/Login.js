@@ -21,7 +21,8 @@ function Login() {
         axios.post('/login', formData)
             .then((res) => {
                 if (res.data.status === 'success') {
-                    console.log(res.data)
+                    console.log(res.data);
+                    console.log('Token received from the server:', res.data.token);
                     if (res.data.role === 'admin') {
                         // Store the JWT token (customize this part based on your server response)
                         const storedToken = localStorage.getItem('jwtToken');
