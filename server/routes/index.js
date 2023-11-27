@@ -180,7 +180,7 @@ router.get('/profile', (req, res) => {
     console.log('Cookies:', req.cookies);
 
     try {
-        const token = req.cookies.token; // Remove the optional chaining
+        const token = req.cookies.token;
         console.log('Token:', token);
 
         if (token) {
