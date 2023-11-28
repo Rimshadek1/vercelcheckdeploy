@@ -21,12 +21,24 @@ function Signup() {
     //image manage
     const handleImageChange = (e) => {
         const file = e.target.files[0];
-        setImage(file);
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImage(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
     };
-    //image manage
+
     const handleProofChange = (e) => {
         const file = e.target.files[0];
-        setProof(file);
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setProof(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
     };
     //handle submit
     const handleSubmit = (e) => {
@@ -254,7 +266,7 @@ function Signup() {
                                 </div>
 
 
-                                <img alt='Add your profile please' width='200px' height='200px' src={image ? URL.createObjectURL(image) : ''}></img>
+                                <img alt='Add your profile please' width='200px' height='200px' src={image}></img>
                                 <div className="form-group basic">
                                     <div className="input-wrapper">
                                         <label className="label" htmlFor="image">Full size Photo</label>
@@ -272,7 +284,7 @@ function Signup() {
 
                                     </div>
                                 </div>
-                                <img alt='Add your Proof please' width='200px' height='200px' src={proof ? URL.createObjectURL(proof) : ''}></img>
+                                <img alt='Add your Proof please' width='200px' height='200px' src={proof}></img>
                                 <div className="form-group basic">
                                     <div className="input-wrapper">
                                         <label className="label" htmlFor="proof">Adhaar/Driving lisence (both-sides)</label>
