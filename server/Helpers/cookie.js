@@ -5,8 +5,6 @@ const jwtsecret = process.env.JWTSECRET;
 
 // Middleware function
 const cookieMiddleware = (req, res, next) => {
-    console.log('Request cookies:', req.cookies);
-
     // Use cookie-parser middleware
     cookieParser(jwtsecret)(req, res, (err) => {
         if (err) {
