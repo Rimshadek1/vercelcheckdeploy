@@ -8,9 +8,8 @@ const otpsender = require('../Helpers/otpsender');
 const path = require('path');
 require('dotenv').config();
 const jwtsecret = process.env.JWTSECRET
-const mongoURI = process.env.mongoUrl;
-const dbName = 'tafcon';
-const { MongoClient, GridFSBucket } = require('mongodb');
+const mongoUrl = process.env.mongoUrl;
+const { MongoClient } = require('mongodb');
 
 //middlewire
 const verifyUser = (req, res, next) => {
