@@ -66,6 +66,8 @@ module.exports = {
         const profilePromise = db.get().collection(collection.imageCollection).find().toArray();
         const proofPromise = db.get().collection(collection.proofCollection).find().toArray();
         console.log('3');
+        console.log(profilePromise);
+        console.log(proofPromise);
 
         try {
             // Wait for both promises to resolve
