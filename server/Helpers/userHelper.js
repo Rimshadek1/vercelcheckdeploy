@@ -66,7 +66,6 @@ module.exports = {
         const profilePromise = db.get().collection(collection.imageCollection).find({}).toArray();
         const proofPromise = db.get().collection(collection.proofCollection).find({}).toArray();
 
-
         console.log('Profile:', profilePromise);
         console.log('Proof:', proofPromise);
 
@@ -86,7 +85,8 @@ module.exports = {
             console.error('Error fetching data:', error);
             throw error;
         }
-    },
+    }
+    ,
 
 
     doVerify: (userId) => {
