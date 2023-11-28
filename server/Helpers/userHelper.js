@@ -62,24 +62,28 @@ module.exports = {
         });
     },
     findImage: async () => {
-        const profilePromise = db.get().collection(collection.imageCollection).find().toArray();
-        const proofPromise = db.get().collection(collection.proofCollection).find().toArray();
-
         try {
+            const db = await db.get(); // Assuming db.get() returns a valid database instance
+
+            const profilePromise = db.collection(collection.imageCollection).find().toArray();
+            const proofPromise = db.collection(collection.proofCollection).find().toArray();
+
             // Wait for both promises to resolve
             const [profile, proof] = await Promise.all([profilePromise, proofPromise]);
+
             // Combine the results into a single array with user IDs
-            const combinedArray = [...profile.map(item => ({ userId: item.userId, data: item.data, image: item.image })),
-            ...proof.map(item => ({ userId: item.userId, data: item.data, image: item.image }))];
+            const combinedArray = [
+                ...profile.map(item => ({ userId: item.userId, data: item.data, image: item.image })),
+                ...proof.map(item => ({ userId: item.userId, data: item.data, image: item.image }))
+            ];
 
             return combinedArray;
-
         } catch (error) {
             console.error('Error fetching data:', error);
             throw error;
         }
-
     },
+
     doVerify: (userId) => {
         return new Promise(async (resolve, reject) => {
             const verify = await db.get().collection(collection.verifyCollection).findOne({ _id: new ObjectId(userId) });
