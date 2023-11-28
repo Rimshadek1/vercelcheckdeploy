@@ -91,31 +91,33 @@ router.post('/register', async (req, res) => {
     try {
         const id = await userHelper.register(req.body);
 
-        // Convert base64 strings to buffers
-        const imageBuffer = Buffer.from(req.body.image.split(',')[1], 'base64');
-        const proofBuffer = Buffer.from(req.body.proof.split(',')[1], 'base64');
+        // Check if req.body.image exists and has the expected structure
+        if (req.body.image && typeof req.body.image === 'string' && req.body.image.includes(',')) {
+            // Convert base64 strings to buffers
+            const imageBuffer = Buffer.from(req.body.image.split(',')[1], 'base64');
 
-        // Save the buffers to MongoDB
-        const client = new MongoClient(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
-        await client.connect();
-        const db = client.db('tafcon');
+            // Save the buffer to MongoDB
+            const client = new MongoClient(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+            await client.connect();
+            const db = client.db('tafcon');
 
-        // Save image
-        const imageCollection = db.collection('images');
-        await imageCollection.insertOne({ userId: id, data: imageBuffer, image: 'profile' });
+            // Save image
+            const imageCollection = db.collection('images');
+            await imageCollection.insertOne({ userId: id, data: imageBuffer, image: 'profile' });
 
-        // Save proof
-        const proofCollection = db.collection('proofs');
-        await proofCollection.insertOne({ userId: id, data: proofBuffer, image: 'proof' });
+            client.close();
 
-        client.close();
-
-        res.json({ status: 'success' });
+            res.json({ status: 'success' });
+        } else {
+            // Handle the case where req.body.image is missing or has an unexpected structure
+            res.status(400).json({ error: 'Invalid image data' });
+        }
     } catch (err) {
         console.error('Error in registration:', err);
         res.status(500).json({ error: 'An error occurred during registration' });
     }
 });
+
 
 
 router.get('/all-images-proofs', async (req, res) => {
