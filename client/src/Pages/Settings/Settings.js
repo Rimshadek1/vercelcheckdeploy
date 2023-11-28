@@ -3,26 +3,15 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 function Settings() {
+    const [id, setId] = useState()
+    const [userImage, setUserImage] = useState(null);
     // goback
     const navigate = useNavigate();
     const handleGoBack = (e) => {
         e.preventDefault();
         navigate(-1);
     };
-    const [imageUrl, setImageUrl] = useState('');
-    useEffect(() => {
-        // Make an HTTP GET request to fetch the image URL
-        axios.get('/profile-image')
-            .then((res) => {
-                // Check if imageUrl is not empty before setting it
-                if (res.data.imageUrl) {
-                    setImageUrl(res.data.imageUrl);
-                }
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, []);
+
     const handleLogout = async () => {
         try {
             await axios.post('/logout').then((res) => {
@@ -35,7 +24,29 @@ function Settings() {
             navigate('/login');
         }
     };
-
+    useEffect(() => {
+        axios.get('/home')
+            .then(res => {
+                if (res.data.status === 'please_load_again') {
+                    setId(res.data.id)
+                    navigate('/');
+                } else {
+                    navigate('/login');
+                    window.location.reload();
+                }
+            })
+            .catch(err => console.log(err));
+    }, []);
+    useEffect(() => {
+        axios.get('/all-images-proofs').then((res) => {
+            console.log(res.data); // Log the entire response data
+            if (res.data && Array.isArray(res.data.data)) {
+                setUserImage(res.data.data);
+            } else {
+                console.error('Invalid response data structure:', res.data);
+            }
+        });
+    }, []);
     return (
         <div>
             {/* header */}
@@ -69,11 +80,16 @@ function Settings() {
                 <div className="section mt-3 text-center">
                     <div className="avatar-section">
                         <a href="/">
-                            <img
-                                className='imaged w100 rounded pointer-cursor'
-                                src={'/Profile-pictures/' + imageUrl}
-                                alt='profile'
-                            />
+                            {userImage ? (
+                                <img
+                                    src={`data:image;base64,${userImage.find((item) => item.userId === id && item.image === "profile")?.data}`}
+                                    className={`imaged w100 rounded pointer-cursor`}
+                                    alt={` Profile`}
+                                />
+
+                            ) : (
+                                <span>No profile image available</span>
+                            )}
                         </a>
                     </div>
                 </div>

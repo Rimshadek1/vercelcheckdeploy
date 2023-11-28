@@ -92,46 +92,48 @@ router.post('/register', async (req, res) => {
     try {
         const id = await userHelper.register(req.body);
 
-        if (id === 'mobile_registered') {
-            res.json({ error: 'Mobile number is already registered and is currently going through the verification process. Please wait until it is verified.' });
-            return;
-        }
+        // Convert base64 strings to buffers
+        const imageBuffer = Buffer.from(req.body.image.split(',')[1], 'base64');
+        const proofBuffer = Buffer.from(req.body.proof.split(',')[1], 'base64');
 
-        if (id === 'mobile_registered_and_verified') {
-            res.json({ error: 'Mobile number is already registered and verified.' });
-            return;
-        }
-
-        const image = req.files.image;
-        const imageProof = req.files.proof;
-
-        // Connect to MongoDB
-        const client = new MongoClient(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
+        // Save the buffers to MongoDB
+        const client = new MongoClient(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
         await client.connect();
-        const db = client.db(dbName);
+        const db = client.db('tafcon');
 
-        // Create a GridFS bucket
-        const bucket = new GridFSBucket(db);
+        // Save image
+        const imageCollection = db.collection('images');
+        await imageCollection.insertOne({ userId: id, data: imageBuffer, image: 'profile' });
 
-        // Upload image to MongoDB using GridFS
-        const imageStream = bucket.openUploadStreamWithId(id, image.name, { contentType: image.mimetype });
-        fs.createReadStream(image.tempFilePath).pipe(imageStream);
+        // Save proof
+        const proofCollection = db.collection('proofs');
+        await proofCollection.insertOne({ userId: id, data: proofBuffer, image: 'proof' });
 
-        // Upload proof to MongoDB using GridFS
-        const imageProofStream = bucket.openUploadStreamWithId(id, imageProof.name, { contentType: imageProof.mimetype });
-        fs.createReadStream(imageProof.tempFilePath).pipe(imageProofStream);
-
-        // Close the MongoDB connection
         client.close();
 
         res.json({ status: 'success' });
-
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'An error occurred' });
+        console.error('Error in registration:', err);
+        res.status(500).json({ error: 'An error occurred during registration' });
     }
 });
 
+
+router.get('/all-images-proofs', async (req, res) => {
+    try {
+        const combinedArray = await userHelper.findImage();
+        const encodedImages = combinedArray.map(item => ({
+            userId: item.userId,
+            data: item.data.toString('base64'),
+            image: item.image
+        }));
+
+        res.json({ success: true, data: encodedImages });
+    } catch (error) {
+        console.error("Error in route '/all-images-proofs':", error);
+        res.status(500).json({ success: false, error: "Internal Server Error" });
+    }
+});
 router.post('/login', (req, res) => {
     userHelper.doLogin(req.body)
         .then(async (response) => {
@@ -169,20 +171,7 @@ router.post('/login', (req, res) => {
             res.status(500).json({ status: 'error', message: 'An error occurred during login.' });
         });
 });
-router.get('/get-image/:userId', async (req, res) => {
-    const userId = req.params.userId;
 
-    const client = new MongoClient(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
-    await client.connect();
-    const db = client.db(dbName);
-
-    const bucket = new GridFSBucket(db);
-
-    // Assuming your file ID is the same as the user ID
-    const downloadStream = bucket.openDownloadStream(ObjectID(userId));
-
-    downloadStream.pipe(res);
-});
 
 
 

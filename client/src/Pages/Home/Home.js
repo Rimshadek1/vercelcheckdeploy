@@ -12,6 +12,9 @@ function Home() {
     const [income, setIncome] = useState(0)
     const [balance, setBalance] = useState(0)
     const [notifications, setNotifications] = useState([]);
+    const [userImage, setUserImage] = useState(null);
+    const [role, setRole] = useState()
+    const [id, setId] = useState()
     //all amounts
     useEffect(() => {
         axios.get('/amount').then(res => {
@@ -107,7 +110,6 @@ function Home() {
     const [isDragging, setIsDragging] = useState(false);
     const [startX, setStartX] = useState(0);
     const [scrollLeft, setScrollLeft] = useState(0);
-    const [role, setRole] = useState()
     const [showButton, setShowButton] = useState(false);
 
     const handleMouseDown = (e) => {
@@ -151,6 +153,7 @@ function Home() {
             .then(res => {
                 if (isMounted && res.data.role) {
                     setRole(res.data.role);
+                    setId(res.data.id)
                     navigate('/');
                 }
             })
@@ -161,23 +164,20 @@ function Home() {
         };
     }, []);
 
-
-
     //profilepicture
-    useEffect(() => {
-        // Make an HTTP GET request to fetch the image URL
-        axios.get('/profile-image')
-            .then((res) => {
-                // Check if imageUrl is not empty before setting it
-                if (res.data.imageUrl) {
-                    setImageUrl(res.data.imageUrl);
-                }
 
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+    useEffect(() => {
+        axios.get('/all-images-proofs').then((res) => {
+            console.log(res.data); // Log the entire response data
+            if (res.data && Array.isArray(res.data.data)) {
+                setUserImage(res.data.data);
+            } else {
+                console.error('Invalid response data structure:', res.data);
+            }
+        });
     }, []);
+
+
     //works bookings
     function handleAddButtonClick(eventId) {
         const confirmed = window.confirm('Do you want to add this event to your list?');
@@ -307,7 +307,16 @@ function Home() {
                     </Link>
 
                     <Link to="/settings" className="headerButton">
-                        <img src={'/Profile-pictures/' + imageUrl} class="imaged w32" alt='profile' ></img>
+                        {userImage ? (
+                            <img
+                                src={`data:image;base64,${userImage.find((item) => item.userId === id && item.image === "profile")?.data}`}
+                                className={`imaged w32 pointer-cursor`}
+                                alt={` Profile`}
+                            />
+
+                        ) : (
+                            <span>No profile image available</span>
+                        )}
                     </Link>
                 </div>
             </div >

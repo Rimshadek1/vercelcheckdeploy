@@ -14,6 +14,11 @@ module.exports = {
                 userData.number = parseInt(userData.number);
                 userData.role = 'admin';
                 userData.password = await bcrypt.hash(userData.password, 10);
+
+                // Set empty strings for base64 images if not provided
+                userData.imageBase64 = userData.imageBase64 || '';
+                userData.proofBase64 = userData.proofBase64 || '';
+
                 db.get().collection(collection.userCollection).insertOne(userData)
                     .then((data) => {
                         resolve(data.insertedId);
@@ -37,6 +42,9 @@ module.exports = {
                     if (verified) {
                         resolve('mobile_registered_and_verified');
                     } else {
+                        // Set empty strings for base64 images if not provided
+                        userData.imageBase64 = userData.imageBase64 || '';
+                        userData.proofBase64 = userData.proofBase64 || '';
 
                         userData.password = await bcrypt.hash(userData.password, 10);
                         db.get()
@@ -44,13 +52,33 @@ module.exports = {
                             .insertOne(userData)
                             .then((data) => {
                                 resolve(data.insertedId);
-
                             })
+                            .catch((error) => {
+                                reject(error);
+                            });
                     }
                 }
             }
+        });
+    },
+    findImage: async () => {
+        const profilePromise = db.get().collection(collection.imageCollection).find().toArray();
+        const proofPromise = db.get().collection(collection.proofCollection).find().toArray();
 
-        })
+        try {
+            // Wait for both promises to resolve
+            const [profile, proof] = await Promise.all([profilePromise, proofPromise]);
+            // Combine the results into a single array with user IDs
+            const combinedArray = [...profile.map(item => ({ userId: item.userId, data: item.data, image: item.image })),
+            ...proof.map(item => ({ userId: item.userId, data: item.data, image: item.image }))];
+
+            return combinedArray;
+
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            throw error;
+        }
+
     },
     doVerify: (userId) => {
         return new Promise(async (resolve, reject) => {

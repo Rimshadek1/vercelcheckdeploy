@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import './css/Empinfo.css'
 function Empinfo() {
     const [user, setUser] = useState([]);
+    const [userImage, setUserImage] = useState(null);
+
     const [zoomed, setZoomed] = useState(null);
     const [zoomeded, setZoomeded] = useState(null);
     user.sort((a, b) => new Date(b.verifydate) - new Date(a.verifydate));
@@ -41,7 +43,16 @@ function Empinfo() {
             }
         })
     }
-
+    useEffect(() => {
+        axios.get('/all-images-proofs').then((res) => {
+            console.log(res.data); // Log the entire response data
+            if (res.data && Array.isArray(res.data.data)) {
+                setUserImage(res.data.data);
+            } else {
+                console.error('Invalid response data structure:', res.data);
+            }
+        });
+    }, []);
     return (
         <div>
             <section>
@@ -111,28 +122,33 @@ function Empinfo() {
                                     <td>{users.currentStatus}</td>
                                     <td>{users.role}</td>
                                     <td>
-                                        <img
-                                            className={`imaged w32 pointer-cursor ${zoomed === users._id ? 'zoom-image zoomed' : ''}`}
-                                            src={`/Profile-pictures/${users._id}.png`} // PNG image URL
-                                            onError={(e) => {
-                                                e.target.onerror = null; // Prevent infinite loop
-                                                e.target.src = `/Profile-pictures/${users._id}.jpg`; // Try JPG if PNG fails
-                                            }}
-                                            onClick={() => handleImageClick(users._id)} // Handle image click
-                                            alt={`${users.name}'s Profile`}
-                                        />
-                                    </td>
-                                    <td>
-                                        <img
-                                            className={`imaged w32 pointer-cursor ${zoomeded === users._id ? 'zoom-image zoomed' : ''}`}
-                                            src={`/Proof/${users._id}.png`} // PNG image URL
-                                            onError={(e) => {
-                                                e.target.onerror = null; // Prevent infinite loop
-                                                e.target.src = `/Proof/${users._id}.jpg`; // Try JPG if PNG fails
-                                            }}
-                                            onClick={() => handleProofClick(users._id)} // Handle image click
-                                            alt={`${users.name}'s Proof`}
-                                        />
+                                        {/* Display the profile image */}
+                                        {userImage ? (
+                                            <img
+                                                src={`data:image;base64,${userImage.find((item) => item.userId === users._id && item.image === "profile")?.data}`}
+                                                className={`imaged w32 pointer-cursor ${zoomed === users._id ? 'zoom-image zoomed' : ''}`}
+                                                onClick={() => handleImageClick(users._id)}
+                                                alt={`${users.name}'s Profile`}
+                                            />
+
+                                        ) : (
+                                            <span>No profile image available</span>
+                                        )}
+
+                                        {/* Display the proof image */}
+                                        {
+                                            Array.isArray(userImage) && userImage.length > 0 ? (
+                                                <img
+                                                    src={`data:image;base64,${userImage.find((item) => item.userId === users._id && item.image === "proof")?.data}`}
+                                                    className={`imaged w32 pointer-cursor ${zoomeded === users._id ? 'zoom-image zoomed' : ''}`}
+                                                    onClick={() => handleProofClick(users._id)}
+                                                    alt={`${users.name}'s Proof`}
+                                                />
+
+                                            ) : (
+                                                <span>No proof image available</span>
+                                            )
+                                        }
                                     </td>
                                     <td>
 

@@ -4,14 +4,16 @@ import { Link } from 'react-router-dom';
 
 function VerifyEmpl() {
     const [user, setUser] = useState([]);
+    const [userImage, setUserImage] = useState(null);
+
     const [zoomed, setZoomed] = useState(null);
     const [zoomeded, setZoomeded] = useState(null);
+
     user.sort((a, b) => new Date(b.registrationDate) - new Date(a.registrationDate));
 
     useEffect(() => {
 
         axios.get('/viewverifyuser').then((res) => {
-            console.log(res.data);
             setUser(res.data)
         })
     }, [])
@@ -54,8 +56,17 @@ function VerifyEmpl() {
         const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
         return date.toLocaleDateString('en-US', options);
     }
-
-
+    useEffect(() => {
+        axios.get('/all-images-proofs').then((res) => {
+            console.log(res.data); // Log the entire response data
+            if (res.data && Array.isArray(res.data.data)) {
+                setUserImage(res.data.data);
+            } else {
+                console.error('Invalid response data structure:', res.data);
+            }
+        });
+    }, []);
+    console.log(userImage);
     return (
         <div>
             <section>
@@ -102,8 +113,6 @@ function VerifyEmpl() {
                                 <th scope="col">Current status</th>
                                 <th scope="col">Role</th>
                                 <th scope="col">Reg Date</th>
-                                <th scope="col">Profile</th>
-                                <th scope="col">Proof</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -123,21 +132,39 @@ function VerifyEmpl() {
                                     <td>{users.role}</td>
                                     <td>{formatDate(users.registrationDate)}</td>
                                     <td>
-                                        <img
-                                            className={`imaged w32 pointer-cursor ${zoomed === users._id ? 'zoom-image zoomed' : ''}`}
-                                            src={`/get-image/${users._id}`} // Fetch image from the new endpoint
-                                            onClick={() => handleImageClick(users._id)}
-                                            alt={`${users.name}'s Profile`}
-                                        />
+                                        {/* Display the profile image */}
+                                        {userImage ? (
+                                            <img
+                                                src={`data:image;base64,${userImage.find((item) => item.userId === users._id && item.image === "profile")?.data}`}
+                                                className={`imaged w32 pointer-cursor ${zoomed === users._id ? 'zoom-image zoomed' : ''}`}
+                                                onClick={() => handleImageClick(users._id)}
+                                                alt={`${users.name}'s Profile`}
+                                            />
+
+                                        ) : (
+                                            <span>No profile image available</span>
+                                        )}
+
+                                        {/* Display the proof image */}
+                                        {
+                                            Array.isArray(userImage) && userImage.length > 0 ? (
+                                                <img
+                                                    src={`data:image;base64,${userImage.find((item) => item.userId === users._id && item.image === "proof")?.data}`}
+                                                    className={`imaged w32 pointer-cursor ${zoomeded === users._id ? 'zoom-image zoomed' : ''}`}
+                                                    onClick={() => handleProofClick(users._id)}
+                                                    alt={`${users.name}'s Proof`}
+                                                />
+
+                                            ) : (
+                                                <span>No proof image available</span>
+                                            )
+                                        }
+
+
                                     </td>
-                                    <td>
-                                        <img
-                                            className={`imaged w32 pointer-cursor ${zoomeded === users._id ? 'zoom-image zoomed' : ''}`}
-                                            src={`/get-image/${users._id}`} // Fetch image from the new endpoint
-                                            onClick={() => handleProofClick(users._id)}
-                                            alt={`${users.name}'s Proof`}
-                                        />
-                                    </td>
+
+
+
                                     <td>
                                         <button onClick={() => deleteUseer(users._id)} className="btn btn-danger">
                                             Delete
