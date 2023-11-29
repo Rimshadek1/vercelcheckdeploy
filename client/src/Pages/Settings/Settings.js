@@ -27,11 +27,10 @@ function Settings() {
     useEffect(() => {
         axios.get('/home')
             .then(res => {
-                if (res.data.status === 'please_load_again') {
+                if (res.data) {
                     setId(res.data.id)
                     navigate('/');
                 } else {
-                    navigate('/login');
                     window.location.reload();
                 }
             })

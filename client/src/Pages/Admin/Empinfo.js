@@ -156,12 +156,15 @@ function Empinfo() {
                                             <button onClick={() => deleteUseer(users._id)} className="btn btn-danger">
                                                 Delete
                                             </button>
-                                        )}
 
-                                        &nbsp;&nbsp;
-                                        <Link to={`/editrole/${users._id}`} className="btn btn-primary">
-                                            Edit Role
-                                        </Link>
+
+                                        )}
+                                        & nbsp;&nbsp;
+                                        {users.role !== "admin" && (
+                                            <Link to={`/editrole/${users._id}`} className="btn btn-primary">
+                                                Edit Role
+                                            </Link>
+                                        )}
                                     </td>
                                 </tr>
                             ))}

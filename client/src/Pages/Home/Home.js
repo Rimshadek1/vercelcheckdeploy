@@ -5,7 +5,6 @@ import axios from 'axios';
 import './Home.css'
 function Home() {
     const navigate = useNavigate();
-    const [imageUrl, setImageUrl] = useState('');
     const [events, setEvents] = useState([]);
     const [fine, setFine] = useState(0)
     const [withdraw, setWithraw] = useState(0)
@@ -168,9 +167,8 @@ function Home() {
 
     useEffect(() => {
         axios.get('/all-images-proofs').then((res) => {
-            console.log(res.data); // Log the entire response data
             if (res.data && Array.isArray(res.data.data)) {
-                setUserImage(res.data.data);
+                setUserImage(res.data.data.data);
             } else {
                 console.error('Invalid response data structure:', res.data);
             }
