@@ -46,6 +46,7 @@ function Settings() {
             }
         });
     }, []);
+    console.log(id);
     return (
         <div>
             {/* header */}
