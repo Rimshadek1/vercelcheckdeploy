@@ -167,8 +167,9 @@ function Home() {
 
     useEffect(() => {
         axios.get('/all-images-proofs').then((res) => {
+            console.log(res.data.data); // Log the entire response data
             if (res.data && Array.isArray(res.data.data)) {
-                setUserImage(res.data.data.data);
+                setUserImage(res.data.data);
             } else {
                 console.error('Invalid response data structure:', res.data);
             }
@@ -305,13 +306,12 @@ function Home() {
                     </Link>
 
                     <Link to="/settings" className="headerButton">
-                        {userImage ? (
+                        {userImage && userImage.length > 0 ? (
                             <img
                                 src={`data:image;base64,${userImage.find((item) => item.userId === id && item.image === "profile")?.data}`}
-                                className={`imaged w32 pointer-cursor`}
+                                className={`imaged w32 rounded pointer-cursor`}
                                 alt={` Profile`}
                             />
-
                         ) : (
                             <span>No profile image available</span>
                         )}

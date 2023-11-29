@@ -74,6 +74,7 @@ const verifyService = (req, res, next) => {
                 return res.json({ error: 'Error with token' });
             } else {
                 if (decoded.role === 'admin' ||
+                    decoded.role === 'main-boy' ||
                     decoded.role === 'captain') {
                     next();
                 } else {

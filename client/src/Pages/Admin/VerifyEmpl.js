@@ -58,7 +58,6 @@ function VerifyEmpl() {
     }
     useEffect(() => {
         axios.get('/all-images-proofs').then((res) => {
-            console.log(res.data); // Log the entire response data
             if (res.data && Array.isArray(res.data.data)) {
                 setUserImage(res.data.data);
             } else {
