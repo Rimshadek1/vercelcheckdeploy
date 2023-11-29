@@ -64,13 +64,13 @@ module.exports = {
     findImage: async () => {
         console.log('2');
 
+        const profilePromise = db.get().collection(collection.imageCollection).find({}).toArray();
+        const proofPromise = db.get().collection(collection.proofCollection).find({}).toArray();
+
+        console.log('Profile Query:', await profilePromise.explain('executionStats')); // Log the query
+        console.log('Proof Query:', await proofPromise.explain('executionStats')); // Log the query
         try {
 
-            const profilePromise = db.get().collection(collection.imageCollection).find({}).toArray();
-            const proofPromise = db.get().collection(collection.proofCollection).find({}).toArray();
-
-            console.log('Profile Query:', await profilePromise.explain('executionStats')); // Log the query
-            console.log('Proof Query:', await proofPromise.explain('executionStats')); // Log the query
 
 
             const [profile, proof] = await Promise.all([profilePromise, proofPromise]);
