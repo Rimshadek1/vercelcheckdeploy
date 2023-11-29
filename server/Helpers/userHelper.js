@@ -72,8 +72,8 @@ module.exports = {
 
         try {
             const [profile, proof] = await Promise.all([
-                profileCursor.toArray(),
-                proofCursor.toArray()
+                profileCursor,
+                proofCursor
             ]);
 
             console.log('Profile:', profile);
