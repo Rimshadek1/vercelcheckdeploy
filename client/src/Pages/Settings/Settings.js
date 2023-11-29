@@ -79,13 +79,12 @@ function Settings() {
                 <div className="section mt-3 text-center">
                     <div className="avatar-section">
                         <a href="/">
-                            {userImage ? (
+                            {userImage && userImage.length > 0 ? (
                                 <img
                                     src={`data:image;base64,${userImage.find((item) => item.userId === id && item.image === "profile")?.data}`}
                                     className={`imaged w100 rounded pointer-cursor`}
                                     alt={` Profile`}
                                 />
-
                             ) : (
                                 <span>No profile image available</span>
                             )}
