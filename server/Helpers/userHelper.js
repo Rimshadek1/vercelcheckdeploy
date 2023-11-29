@@ -63,8 +63,8 @@ module.exports = {
     },
     findImage: async () => {
         console.log('2');
-        const profilePromise = db.get().collection(collection.imageCollection).find({}).toArray();
-        const proofPromise = db.get().collection(collection.proofCollection).find({}).toArray();
+        const profilePromise = await db.get().collection(collection.imageCollection).find({}).toArray();
+        const proofPromise = await db.get().collection(collection.proofCollection).find({}).toArray();
 
 
 
