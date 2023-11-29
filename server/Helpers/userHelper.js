@@ -63,16 +63,16 @@ module.exports = {
     },
     findImage: async () => {
         console.log('2');
-        const profilePromise = db.get().collection(collection.imageCollection).find({}).toArray();
-        const proofPromise = db.get().collection(collection.proofCollection).find({}).toArray();
-        console.log('Collection:', db.get().collection(collection.imageCollection));
-        console.log('Profile Promise:', profilePromise);
-        console.log('Proof Promise:', proofPromise);
-
 
         try {
-            const profile = await profilePromise;
-            const proof = await proofPromise;
+            const profilePromise = db.get().collection(collection.imageCollection).find({}).toArray();
+            const proofPromise = db.get().collection(collection.proofCollection).find({}).toArray();
+
+            console.log('Collection:', db.get().collection(collection.imageCollection));
+            console.log('Profile Promise:', profilePromise);
+            console.log('Proof Promise:', proofPromise);
+
+            const [profile, proof] = await Promise.all([profilePromise, proofPromise]);
 
             console.log('Profile:', profile);
             console.log('Proof:', proof);
@@ -89,8 +89,8 @@ module.exports = {
             console.error('Error fetching data:', error);
             throw error;
         }
-
     }
+
     ,
 
 
