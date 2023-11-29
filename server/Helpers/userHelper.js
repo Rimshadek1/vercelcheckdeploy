@@ -63,16 +63,16 @@ module.exports = {
     },
     findImage: async () => {
         console.log('2');
-        const profilePromise = await db.get().collection(collection.imageCollection).find({}).toArray();
-        const proofPromise = await db.get().collection(collection.proofCollection).find({}).toArray();
-
-
+        const profilePromise = db.get().collection(collection.imageCollection).find({}).toArray();
+        const proofPromise = db.get().collection(collection.proofCollection).find({}).toArray();
 
         try {
-            // Wait for both promises to resolve
-            const [profile, proof] = await Promise.all([profilePromise, proofPromise]);
+            const profile = await profilePromise;
+            const proof = await proofPromise;
+
             console.log('Profile:', profile);
             console.log('Proof:', proof);
+
             // Combine the results into a single array with user IDs
             const combinedArray = [
                 ...profile.map(item => ({ userId: item.userId, data: item.data, image: item.image })),
@@ -81,11 +81,11 @@ module.exports = {
 
             console.log('4');
             return combinedArray;
-
         } catch (error) {
             console.error('Error fetching data:', error);
             throw error;
         }
+
     }
     ,
 
