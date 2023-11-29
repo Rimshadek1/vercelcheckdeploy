@@ -65,12 +65,13 @@ module.exports = {
         console.log('2');
 
         try {
+
             const profilePromise = db.get().collection(collection.imageCollection).find({}).toArray();
             const proofPromise = db.get().collection(collection.proofCollection).find({}).toArray();
 
-            console.log('Collection:', db.get().collection(collection.imageCollection));
-            console.log('Profile Promise:', profilePromise);
-            console.log('Proof Promise:', proofPromise);
+            console.log('Profile Query:', await profilePromise.explain('executionStats')); // Log the query
+            console.log('Proof Query:', await proofPromise.explain('executionStats')); // Log the query
+
 
             const [profile, proof] = await Promise.all([profilePromise, proofPromise]);
 
