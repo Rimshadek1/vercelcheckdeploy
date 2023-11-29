@@ -65,6 +65,10 @@ module.exports = {
         console.log('2');
         const profilePromise = db.get().collection(collection.imageCollection).find({}).toArray();
         const proofPromise = db.get().collection(collection.proofCollection).find({}).toArray();
+        console.log('Collection:', db.get().collection(collection.imageCollection));
+        console.log('Profile Promise:', profilePromise);
+        console.log('Proof Promise:', proofPromise);
+
 
         try {
             const profile = await profilePromise;
