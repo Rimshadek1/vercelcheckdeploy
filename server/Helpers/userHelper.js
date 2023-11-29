@@ -62,35 +62,26 @@ module.exports = {
         });
     },
     findImage: async () => {
-        console.log('2');
-
-        const profileCursor = db.get().collection(collection.imageCollection).find({});
-        const proofCursor = db.get().collection(collection.proofCollection).find({});
-
-        console.log('Profile Query:', await profileCursor.explain('executionStats')); // Log the query
-        console.log('Proof Query:', await proofCursor.explain('executionStats')); // Log the query
-
+        const profilePromise = db.get().collection(collection.imageCollection).find({}).toArray();
+        const proofPromise = db.get().collection(collection.proofCollection).find({}).toArray();
+        console.log('Profile:', profilePromise);
+        console.log('Proof:', proofPromise);
         try {
-            const [profile, proof] = await Promise.all([
-                profileCursor,
-                proofCursor
-            ]);
-
+            // Wait for both promises to resolve
+            const [profile, proof] = await Promise.all([profilePromise, proofPromise]);
             console.log('Profile:', profile);
             console.log('Proof:', proof);
-
             // Combine the results into a single array with user IDs
-            const combinedArray = [
-                ...profile.map(item => ({ userId: item.userId, data: item.data, image: item.image })),
-                ...proof.map(item => ({ userId: item.userId, data: item.data, image: item.image }))
-            ];
+            const combinedArray = [...profile.map(item => ({ userId: item.userId, data: item.data, image: item.image })),
+            ...proof.map(item => ({ userId: item.userId, data: item.data, image: item.image }))];
 
-            console.log('4');
             return combinedArray;
+
         } catch (error) {
             console.error('Error fetching data:', error);
             throw error;
         }
+
     }
 
 

@@ -12,4 +12,6 @@ module.exports = {
     notificationCollection: 'notification',
     eventdateCollection: 'eventdate',
     otpCollection: 'otp',
+    imageCollection: 'images',
+    proofCollection: 'proofs',
 }
