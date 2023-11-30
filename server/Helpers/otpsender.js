@@ -10,6 +10,17 @@ const transporter = nodemailer.createTransport({
         pass: process.env.PASSWORD,
     }
 });
+const sendMail = (mailOptions) => {
+    return new Promise((resolve, reject) => {
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(info);
+            }
+        });
+    });
+};
 
 module.exports = {
     userOtpsend: async (email, res) => {
@@ -44,16 +55,11 @@ module.exports = {
                         text: `Dear User,\n\nThank you for using TAFCON EVENTS. To update your password, please use the following OTP validation code:\n\nOTP: ${OTP}\n\nThis OTP is valid for a limited time.\n\nBest regards,\nThe TAFCON EVENTS Team`
                     };
                     console.log('5');
-                    transporter.sendMail(mailOptions, (error, info) => {
-                        if (error) {
-                            console.log("error", error);
-                            res.status(400).json({ error: "email not send" });
-                        } else {
-                            console.log("Email sent", info.response);
-                            res.status(200).json({ message: "Email sent Successfully" });
-                        }
-                    });
+
+                    await sendMail(mailOptions);
                     console.log('6');
+
+                    res.status(200).json({ message: "Email sent Successfully" });
 
                 } else {
                     userDetails = {
@@ -69,15 +75,10 @@ module.exports = {
                         text: `OTP:- ${OTP}`
                     };
 
-                    transporter.sendMail(mailOptions, (error, info) => {
-                        if (error) {
-                            console.log("error", error);
-                            res.status(400).json({ error: "email not send" });
-                        } else {
-                            console.log("Email sent", info.response);
-                            res.status(200).json({ message: "Email sent Successfully" });
-                        }
-                    });
+                    await sendMail(mailOptions);
+                    console.log('6');
+
+                    res.status(200).json({ message: "Email sent Successfully" });
                 }
             } else {
                 res.status(400).json({ error: "This User Not Exist In our Db" });
