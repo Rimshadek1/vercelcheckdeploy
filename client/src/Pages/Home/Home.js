@@ -257,7 +257,7 @@ function Home() {
     }, []);
     //site details
     useEffect(() => {
-        if (role === 'captain' || 'admin') {
+        if (role === 'captain' || 'admin' || 'main-boy') {
             setShowButton(true);
         }
     }, [role]);
@@ -306,12 +306,15 @@ function Home() {
                     </Link>
 
                     <Link to="/settings" className="headerButton">
-                        <img
-                            src={`data:image;base64,${userImage.find((item) => item.userId === id && item.image === "profile")?.data}`}
-                            className={`imaged w32 rounded pointer-cursor`}
-                            alt={` Profile`}
-                        />
-
+                        {userImage && userImage.length > 0 ? (
+                            <img
+                                src={`data:image;base64,${userImage.find((item) => item.userId === id && item.image === "profile")?.data}`}
+                                className={`imaged w32 rounded pointer-cursor`}
+                                alt={` Profile`}
+                            />
+                        ) : (
+                            ""
+                        )}
                     </Link>
                 </div>
             </div >
