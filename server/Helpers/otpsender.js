@@ -84,7 +84,8 @@ module.exports = {
                 res.status(400).json({ error: "This User Not Exist In our Db" });
             }
         } catch (error) {
-            res.json({ error: "Invalid Details", error });
+            console.error(error);
+            res.status(500).json({ error: "Internal server error" });
         }
     },
 

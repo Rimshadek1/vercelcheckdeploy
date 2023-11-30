@@ -213,7 +213,7 @@ router.post('/sendotp', (req, res) => {
     const { email } = req.body;
     console.log(email);
 
-    otpsender.userOtpsend(email)
+    otpsender.userOtpsend(email, res)
         .then((result) => {
             res.json({ status: 'ok' });
         })
