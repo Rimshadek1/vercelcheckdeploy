@@ -29,7 +29,7 @@
 
 /* Media query for smaller screens (e.g., mobile devices) */
 @media (max-width: 500px) {
-    .section.full {
+    .section.full.card {
         display: none;
     }
 }

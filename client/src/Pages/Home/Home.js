@@ -506,7 +506,7 @@ function Home() {
 
                 {/* main boys */}
                 {(role === "admin" || role === "main-boy" || role === 'captain') && events.some(event => event.slotMain > 0) && (
-                    <div className="section full mt-2">
+                    <div className="section full card mt-2">
                         <div className="section-heading padding">
                             <h2 className="title">Works for Main boy</h2>
                             <Link to="/events" className="link">View All</Link>
@@ -576,7 +576,7 @@ function Home() {
 
                 {/* supervisors */}
                 {(role === "admin" || role === "main-boy" || role === 'supervisor' || role === 'captain') && events.some(event => event.slotSuper > 0) && (
-                    <div className="section full mt-2">
+                    <div className="section full card mt-2">
                         <div className="section-heading padding">
                             <h2 className="title">Works for Supervisors</h2>
                             <Link to="/events" className="link">View All</Link>
@@ -644,7 +644,7 @@ function Home() {
 
 
                 {/* boys */}
-                <div className="section full mt-2">
+                <div className="section full card mt-2">
                     <div className="section-heading padding">
                         <h2 className="title">Works for Boys</h2>
                         <Link to="/events" className="link">View All</Link>

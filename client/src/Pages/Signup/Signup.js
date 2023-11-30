@@ -44,7 +44,7 @@ function Signup() {
                 reader.readAsDataURL(file);
             } else {
                 // File size exceeds the limit, show an error or take appropriate action
-                alert('Image size must be 150 KB or less');
+                alert('Image size must be 150 KB or less, Please compress your image');
                 // You can clear the input if needed
                 e.target.value = null;
             }
@@ -71,7 +71,7 @@ function Signup() {
                 reader.readAsDataURL(file);
             } else {
                 // File size exceeds the limit, show an error or take appropriate action
-                alert('Proof size must be 150 KB or less');
+                alert('Proof size must be 150 KB or less, Please compress your image');
                 // You can clear the input if needed
                 e.target.value = null;
             }
