@@ -13,6 +13,8 @@ const transporter = nodemailer.createTransport({
 
 module.exports = {
     userOtpsend: async (email, res) => {
+        console.log('1');
+
         if (!email) {
             res.json({ error: "Please Enter Your Email" });
             return;
@@ -20,10 +22,12 @@ module.exports = {
 
         try {
             const presuer = await db.get().collection(collection.userCollection).findOne({ email: email });
+            console.log('2');
 
             if (presuer) {
                 const OTP = Math.floor(100000 + Math.random() * 900000);
                 const existEmail = await db.get().collection(collection.otpCollection).findOne({ email: email });
+                console.log('3');
 
                 if (existEmail) {
                     const updateData = await db.get().collection(collection.otpCollection).findOneAndUpdate(
@@ -31,6 +35,7 @@ module.exports = {
                         { $set: { otp: OTP } },
                         { returnOriginal: false }
                     );
+                    console.log('4');
 
                     const mailOptions = {
                         from: process.env.EMAIL,
@@ -38,7 +43,7 @@ module.exports = {
                         subject: "OTP Validation for TAFCON EVENTS Password Update",
                         text: `Dear User,\n\nThank you for using TAFCON EVENTS. To update your password, please use the following OTP validation code:\n\nOTP: ${OTP}\n\nThis OTP is valid for a limited time.\n\nBest regards,\nThe TAFCON EVENTS Team`
                     };
-
+                    console.log('5');
                     transporter.sendMail(mailOptions, (error, info) => {
                         if (error) {
                             console.log("error", error);
@@ -48,6 +53,8 @@ module.exports = {
                             res.status(200).json({ message: "Email sent Successfully" });
                         }
                     });
+                    console.log('6');
+
                 } else {
                     userDetails = {
                         email,
