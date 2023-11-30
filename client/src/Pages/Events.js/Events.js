@@ -44,7 +44,7 @@ function Events() {
         const confirmed = window.confirm('Do you want to add this event to your list?');
 
         if (confirmed) {
-            axios.post(`http://localhost:3000/confirmbooking/${eventId}`)
+            axios.post(`/confirmbooking/${eventId}`)
                 .then((res) => {
                     if (res.data.status === 'success') {
                         alert('Booking confirmed');
@@ -65,7 +65,7 @@ function Events() {
         const confirmed = window.confirm('Do you want to add this event to your list?');
 
         if (confirmed) {
-            axios.post(`http://localhost:3000/confirmbookingMain/${eventId}`)
+            axios.post(`/confirmbookingMain/${eventId}`)
                 .then((res) => {
                     if (res.data.status === 'success') {
                         alert('Booking confirmed');
@@ -86,7 +86,7 @@ function Events() {
         const confirmed = window.confirm('Do you want to add this event to your list?');
 
         if (confirmed) {
-            axios.post(`http://localhost:3000/confirmbookingSuper/${eventId}`)
+            axios.post(`/confirmbookingSuper/${eventId}`)
                 .then((res) => {
                     if (res.data.status === 'success') {
                         alert('Booking confirmed');
