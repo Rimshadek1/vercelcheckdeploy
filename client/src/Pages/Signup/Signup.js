@@ -19,25 +19,62 @@ function Signup() {
     const [registrationDate] = useState(new Date());
     const navigate = useNavigate()
     //image manage
+    // Image size limit in kilobytes (KB)
+    const imageSizeLimitKB = 150;
+
+    // Proof size limit in kilobytes (KB)
+    const proofSizeLimitKB = 150;
+
     const handleImageChange = (e) => {
         const file = e.target.files[0];
+
         if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImage(reader.result);
-            };
-            reader.readAsDataURL(file);
+            // Check the file size (in bytes)
+            const fileSize = file.size;
+
+            // Convert file size to kilobytes
+            const fileSizeInKB = fileSize / 1024;
+
+            if (fileSizeInKB <= imageSizeLimitKB) {
+                // File size is within the limit, proceed with setting the image in state
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    setImage(reader.result);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                // File size exceeds the limit, show an error or take appropriate action
+                alert('Image size must be 150 KB or less');
+                // You can clear the input if needed
+                e.target.value = null;
+            }
         }
     };
 
+    // Proof change handler
     const handleProofChange = (e) => {
         const file = e.target.files[0];
+
         if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setProof(reader.result);
-            };
-            reader.readAsDataURL(file);
+            // Check the file size (in bytes)
+            const fileSize = file.size;
+
+            // Convert file size to kilobytes
+            const fileSizeInKB = fileSize / 1024;
+
+            if (fileSizeInKB <= proofSizeLimitKB) {
+                // File size is within the limit, proceed with setting the proof in state
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    setProof(reader.result);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                // File size exceeds the limit, show an error or take appropriate action
+                alert('Proof size must be 150 KB or less');
+                // You can clear the input if needed
+                e.target.value = null;
+            }
         }
     };
     //handle submit
@@ -269,7 +306,7 @@ function Signup() {
                                 <img alt='Add your profile please' width='200px' height='200px' src={image}></img>
                                 <div className="form-group basic">
                                     <div className="input-wrapper">
-                                        <label className="label" htmlFor="image">Full size Photo</label>
+                                        <label className="label" htmlFor="image">Full size Photo (size below 150 kb only accepted)</label>
                                         <input
                                             type="file"
                                             required
@@ -287,7 +324,7 @@ function Signup() {
                                 <img alt='Add your Proof please' width='200px' height='200px' src={proof}></img>
                                 <div className="form-group basic">
                                     <div className="input-wrapper">
-                                        <label className="label" htmlFor="proof">Adhaar/Driving lisence (both-sides)</label>
+                                        <label className="label" htmlFor="proof">Adhaar/Driving lisence (both-sides) (size below 150 kb only accepted)</label>
                                         <input
                                             type="file"
                                             required

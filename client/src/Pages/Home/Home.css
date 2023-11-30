@@ -29,36 +29,9 @@
 
 /* Media query for smaller screens (e.g., mobile devices) */
 @media (max-width: 500px) {
-    .boxes {
-        width: 70%;
-        height: 220px;
-        margin: 0;
-        border-radius: 15px;
-        margin-left: 10px;
+    .section.full {
+        display: none;
     }
-
-
-    .slider-box {
-        display: flex;
-        overflow: hidden;
-        width: 450px;
-        height: 250px;
-        position: relative;
-    }
-
-    .slider-nav {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 1;
-    }
-
-    .slider-nav .prev,
-    .slider-nav .next {
-        cursor: pointer;
-    }
-
-
 }
 
 .content {

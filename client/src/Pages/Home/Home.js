@@ -306,15 +306,12 @@ function Home() {
                     </Link>
 
                     <Link to="/settings" className="headerButton">
-                        {userImage && userImage.length > 0 ? (
-                            <img
-                                src={`data:image;base64,${userImage.find((item) => item.userId === id && item.image === "profile")?.data}`}
-                                className={`imaged w32 rounded pointer-cursor`}
-                                alt={` Profile`}
-                            />
-                        ) : (
-                            <span>No profile image available</span>
-                        )}
+                        <img
+                            src={`data:image;base64,${userImage.find((item) => item.userId === id && item.image === "profile")?.data}`}
+                            className={`imaged w32 rounded pointer-cursor`}
+                            alt={` Profile`}
+                        />
+
                     </Link>
                 </div>
             </div >
@@ -711,24 +708,24 @@ function Home() {
 
 
                     <div >
-                        {showButton && (
-                            <div>
-                                <Link to='/sitedetails' className=' btn btn-success'>
-                                    Site details
-                                </Link>
-                            </div>
-                        )}
-                    </div>
-
-
-
-                    <div class="appFooter">
-                        <div class="footer-title">
-                            App by @ tafcon
-                        </div>
-
                     </div>
                 </div >
+                {showButton && (
+                    <div>
+                        <Link to='/sitedetails' className=' btn btn-success'>
+                            Site details
+                        </Link>
+                    </div>
+                )}
+
+
+
+                <div class="appFooter">
+                    <div class="footer-title">
+                        App by @ tafcon
+                    </div>
+
+                </div>
             </div>
 
             {/* body */}
