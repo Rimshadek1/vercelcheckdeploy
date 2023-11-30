@@ -211,7 +211,6 @@ router.get('/profile', (req, res) => {
 
 router.post('/sendotp', (req, res) => {
     const { email } = req.body;
-    console.log(email);
 
     otpsender.userOtpsend(email, res)
         .then((result) => {
