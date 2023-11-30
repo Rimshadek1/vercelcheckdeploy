@@ -693,7 +693,8 @@ module.exports = {
 
             // Check if the user is already a captain
             let user = await db.get().collection(collection.captainCollection).findOne({ userId: new ObjectId(userId) });
-            if (user) {
+            let event = await db.get().collection(collection.captainCollection).findOne({ eventId: new ObjectId(eventId) });
+            if (user && event) {
                 return "user already a captain";
             } else {
                 // If all validations pass, proceed with the insertion
