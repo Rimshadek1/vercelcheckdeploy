@@ -45,8 +45,8 @@ function Changepass() {
             {/* App Capsule */}
             <div id="appCapsule">
                 <div className="section mt-2 text-center">
-                    <h1>Forget Password ?</h1>
-                    <h4>Generate otp</h4>
+                    <h1>Change your password ?</h1>
+                    <h4>your password</h4>
                 </div>
                 <div className="section mb-5 p-2">
                     <form onSubmit={handleSubmit}>

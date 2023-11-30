@@ -12,16 +12,17 @@ const transporter = nodemailer.createTransport({
 });
 
 module.exports = {
-    userOtpsend: async (email) => {
+    userOtpsend: async (email, res) => {
         if (!email) {
             res.json({ error: "Please Enter Your Email" });
             return;
         }
+
         try {
             const presuer = await db.get().collection(collection.userCollection).findOne({ email: email });
+
             if (presuer) {
                 const OTP = Math.floor(100000 + Math.random() * 900000);
-
                 const existEmail = await db.get().collection(collection.otpCollection).findOne({ email: email });
 
                 if (existEmail) {
@@ -30,13 +31,13 @@ module.exports = {
                         { $set: { otp: OTP } },
                         { returnOriginal: false }
                     );
+
                     const mailOptions = {
                         from: process.env.EMAIL,
                         to: email,
                         subject: "OTP Validation for TAFCON EVENTS Password Update",
                         text: `Dear User,\n\nThank you for using TAFCON EVENTS. To update your password, please use the following OTP validation code:\n\nOTP: ${OTP}\n\nThis OTP is valid for a limited time.\n\nBest regards,\nThe TAFCON EVENTS Team`
                     };
-
 
                     transporter.sendMail(mailOptions, (error, info) => {
                         if (error) {
@@ -53,6 +54,7 @@ module.exports = {
                         otp: OTP
                     };
                     const data = await db.get().collection(collection.otpCollection).insertOne(userDetails);
+
                     const mailOptions = {
                         from: process.env.EMAIL,
                         to: email,
@@ -77,6 +79,7 @@ module.exports = {
             res.json({ error: "Invalid Details", error });
         }
     },
+
     userOtpCheck: (otp, email) => {
         return new Promise(async (resolve, reject) => {
             try {

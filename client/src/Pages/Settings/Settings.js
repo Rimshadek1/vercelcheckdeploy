@@ -130,11 +130,11 @@ function Settings() {
                         </a>
                     </li>
                     <li>
-                        <a href="/" className="item" >
-                            <div className="in">
-                                <div onClick={handleLogout}>Log out</div>
+                        <Link to="/login" className="item" >
+                            <div className="in" onClick={handleLogout}>
+                                <div >Log out</div>
                             </div>
-                        </a>
+                        </Link>
                     </li>
                 </ul>
             </div>
