@@ -24,8 +24,6 @@ const sendMail = (mailOptions) => {
 
 module.exports = {
     userOtpsend: async (email, res) => {
-        console.log('1');
-
         if (!email) {
             res.json({ error: "Please Enter Your Email" });
             return;
@@ -59,8 +57,6 @@ module.exports = {
                     await sendMail(mailOptions);
                     console.log('6');
 
-                    res.status(200).json({ message: "Email sent Successfully" });
-
                 } else {
                     userDetails = {
                         email,
@@ -77,9 +73,11 @@ module.exports = {
 
                     await sendMail(mailOptions);
                     console.log('6');
-
-                    res.status(200).json({ message: "Email sent Successfully" });
                 }
+
+                // Move the response outside the if-else blocks
+                res.status(200).json({ message: "Email sent Successfully" });
+
             } else {
                 res.status(400).json({ error: "This User Not Exist In our Db" });
             }
