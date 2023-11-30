@@ -24,67 +24,64 @@ const sendMail = (mailOptions) => {
 
 module.exports = {
     userOtpsend: async (email, res) => {
+        let response = {}; // Store the response status and message
+
         if (!email) {
-            res.json({ error: "Please Enter Your Email" });
-            return;
-        }
+            response = { status: 400, json: { error: "Please Enter Your Email" } };
+        } else {
+            try {
+                const presuer = await db.get().collection(collection.userCollection).findOne({ email: email });
 
-        try {
-            const presuer = await db.get().collection(collection.userCollection).findOne({ email: email });
-            console.log('2');
+                if (presuer) {
+                    const OTP = Math.floor(100000 + Math.random() * 900000);
+                    const existEmail = await db.get().collection(collection.otpCollection).findOne({ email: email });
 
-            if (presuer) {
-                const OTP = Math.floor(100000 + Math.random() * 900000);
-                const existEmail = await db.get().collection(collection.otpCollection).findOne({ email: email });
-                console.log('3');
+                    if (existEmail) {
+                        await db.get().collection(collection.otpCollection).findOneAndUpdate(
+                            { _id: existEmail._id },
+                            { $set: { otp: OTP } },
+                            { returnOriginal: false }
+                        );
 
-                if (existEmail) {
-                    const updateData = await db.get().collection(collection.otpCollection).findOneAndUpdate(
-                        { _id: existEmail._id },
-                        { $set: { otp: OTP } },
-                        { returnOriginal: false }
-                    );
-                    console.log('4');
+                        const mailOptions = {
+                            from: process.env.EMAIL,
+                            to: email,
+                            subject: "OTP Validation for TAFCON EVENTS Password Update",
+                            text: `Dear User,\n\nThank you for using TAFCON EVENTS. To update your password, please use the following OTP validation code:\n\nOTP: ${OTP}\n\nThis OTP is valid for a limited time.\n\nBest regards,\nThe TAFCON EVENTS Team`
+                        };
 
-                    const mailOptions = {
-                        from: process.env.EMAIL,
-                        to: email,
-                        subject: "OTP Validation for TAFCON EVENTS Password Update",
-                        text: `Dear User,\n\nThank you for using TAFCON EVENTS. To update your password, please use the following OTP validation code:\n\nOTP: ${OTP}\n\nThis OTP is valid for a limited time.\n\nBest regards,\nThe TAFCON EVENTS Team`
-                    };
-                    console.log('5');
+                        await sendMail(mailOptions);
+                        response = { status: 200, json: { message: "Email sent Successfully" } };
 
-                    await sendMail(mailOptions);
-                    console.log('6');
+                    } else {
+                        const userDetails = {
+                            email,
+                            otp: OTP
+                        };
+                        await db.get().collection(collection.otpCollection).insertOne(userDetails);
+
+                        const mailOptions = {
+                            from: process.env.EMAIL,
+                            to: email,
+                            subject: "Sending Email For Otp Validation",
+                            text: `OTP:- ${OTP}`
+                        };
+
+                        await sendMail(mailOptions);
+                        response = { status: 200, json: { message: "Email sent Successfully" } };
+                    }
 
                 } else {
-                    userDetails = {
-                        email,
-                        otp: OTP
-                    };
-                    const data = await db.get().collection(collection.otpCollection).insertOne(userDetails);
-
-                    const mailOptions = {
-                        from: process.env.EMAIL,
-                        to: email,
-                        subject: "Sending Email For Otp Validation",
-                        text: `OTP:- ${OTP}`
-                    };
-
-                    await sendMail(mailOptions);
-                    console.log('6');
+                    response = { status: 400, json: { error: "This User Not Exist In our Db" } };
                 }
-
-                // Move the response outside the if-else blocks
-                res.status(200).json({ message: "Email sent Successfully" });
-
-            } else {
-                res.status(400).json({ error: "This User Not Exist In our Db" });
+            } catch (error) {
+                console.error(error);
+                response = { status: 500, json: { error: "Internal server error" } };
             }
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ error: "Internal server error" });
         }
+
+        // Send the response after all asynchronous operations
+        res.status(response.status).json(response.json);
     },
 
     userOtpCheck: (otp, email) => {
