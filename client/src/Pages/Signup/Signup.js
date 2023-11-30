@@ -20,10 +20,10 @@ function Signup() {
     const navigate = useNavigate()
     //image manage
     // Image size limit in kilobytes (KB)
-    const imageSizeLimitKB = 150;
+    const imageSizeLimitKB = 200;
 
     // Proof size limit in kilobytes (KB)
-    const proofSizeLimitKB = 150;
+    const proofSizeLimitKB = 200;
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -44,7 +44,7 @@ function Signup() {
                 reader.readAsDataURL(file);
             } else {
                 // File size exceeds the limit, show an error or take appropriate action
-                alert('Image size must be 150 KB or less, Please compress your image');
+                alert('Image size must be 200 KB or less, Please compress your image');
                 // You can clear the input if needed
                 e.target.value = null;
             }
@@ -71,7 +71,7 @@ function Signup() {
                 reader.readAsDataURL(file);
             } else {
                 // File size exceeds the limit, show an error or take appropriate action
-                alert('Proof size must be 150 KB or less, Please compress your image');
+                alert('Proof size must be 200 KB or less, Please compress your image');
                 // You can clear the input if needed
                 e.target.value = null;
             }
@@ -306,7 +306,7 @@ function Signup() {
                                 <img alt='Add your profile please' width='200px' height='200px' src={image}></img>
                                 <div className="form-group basic">
                                     <div className="input-wrapper">
-                                        <label className="label" htmlFor="image">Full size Photo (size below 150 kb only accepted)</label>
+                                        <label className="label" htmlFor="image">Full size Photo (size below 200 kb only accepted)</label>
                                         <input
                                             type="file"
                                             required
@@ -324,7 +324,7 @@ function Signup() {
                                 <img alt='Add your Proof please' width='200px' height='200px' src={proof}></img>
                                 <div className="form-group basic">
                                     <div className="input-wrapper">
-                                        <label className="label" htmlFor="proof">Adhaar/Driving lisence (both-sides) (size below 150 kb only accepted)</label>
+                                        <label className="label" htmlFor="proof">Adhaar/Driving lisence (both-sides) (size below 200 kb only accepted)</label>
                                         <input
                                             type="file"
                                             required
