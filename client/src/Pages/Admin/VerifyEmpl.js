@@ -81,21 +81,7 @@ function VerifyEmpl() {
                                 View Employees
                             </Link>
                         </div>
-                        <div className="col">
-                            <a href="/admin/add-salary" className="btn btn-success ml-auto">
-                                Add Salary
-                            </a>
-                        </div>
-                        <div className="col">
-                            <a href="/admin/view-salary" className="btn btn-warning ml-auto">
-                                View Salary
-                            </a>
-                        </div>
-                        <div className="col">
-                            <a href="/admin/withdraw" className="btn btn-danger ml-auto">
-                                Withdraw Salary
-                            </a>
-                        </div>
+
                     </div>
                     <table className="table mt-5">
                         <thead>

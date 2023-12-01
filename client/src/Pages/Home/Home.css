@@ -19,7 +19,7 @@
     /* Prevent boxes from shrinking */
 }
 
-.appHeader.left img {
+.appHeader.left.logo {
     width: 30px;
     height: 10px;
 }
