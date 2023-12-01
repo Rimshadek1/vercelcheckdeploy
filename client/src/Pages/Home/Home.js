@@ -281,7 +281,14 @@ function Home() {
             {/* Header */}
             < div className="appHeader bg-warning text-light ">
                 <div className="left">
-                    <img src="logo/tafcon.png" alt="logo" className="logo" />
+                    <div className="left">
+                        <img
+                            src="logo/tafcon.png"
+                            alt="logo"
+                            className="logo"
+                            style={{ width: '50px', height: '50px' }}
+                        />
+                    </div>
 
                 </div>
                 <div className="pageTitle">

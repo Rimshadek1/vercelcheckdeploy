@@ -19,11 +19,6 @@
     /* Prevent boxes from shrinking */
 }
 
-.appHeader.left.logo {
-    width: 10px;
-    height: 5px;
-}
-
 /* Media query for smaller screens (e.g., mobile devices) */
 @media (max-width: 500px) {
     .section.full.card {
