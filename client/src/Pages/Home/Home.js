@@ -288,7 +288,7 @@ function Home() {
                             src="logo/tafcon.png"
                             alt="logo"
                             className="logo"
-                            style={{ width: '150px', height: '50px' }}
+                            style={{ width: '100px', height: '50px' }}
                         />
                     </div>
 
@@ -320,7 +320,7 @@ function Home() {
                                 src={`data:image;base64,${userImage.find((item) => item.userId === id && item.image === "profile")?.data}`}
                                 className={`imaged w32 rounded pointer-cursor`}
                                 alt={` Profile`}
-                                style={{ height: '50px' }}
+                                style={{ height: '30px', width: '30px' }}
                             />
                         ) : (
                             ""
