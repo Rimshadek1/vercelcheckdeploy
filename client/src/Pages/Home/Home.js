@@ -274,6 +274,7 @@ function Home() {
             setIsEvent(bookedEvents);
         }).catch(err => console.log(err));
     }, []);
+    console.log(role);
     return (
         <div>
 
@@ -318,6 +319,7 @@ function Home() {
                                 src={`data:image;base64,${userImage.find((item) => item.userId === id && item.image === "profile")?.data}`}
                                 className={`imaged w32 rounded pointer-cursor`}
                                 alt={` Profile`}
+                                style={{ height: '50px' }}
                             />
                         ) : (
                             ""

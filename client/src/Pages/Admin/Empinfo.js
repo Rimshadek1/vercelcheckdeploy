@@ -159,7 +159,7 @@ function Empinfo() {
 
 
                                         )}
-                                        & nbsp;&nbsp;
+                                        &nbsp;&nbsp;
                                         {users.role !== "admin" && (
                                             <Link to={`/editrole/${users._id}`} className="btn btn-primary">
                                                 Edit Role
