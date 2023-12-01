@@ -281,10 +281,10 @@ function Home() {
             {/* Header */}
             < div className="appHeader bg-warning text-light ">
                 <div className="left">
+                    <img src="logo/tafcon.png" alt="logo" className="logo" />
 
                 </div>
                 <div className="pageTitle">
-                    <img src="logo/tafcon.png" alt="logo" className="logo" />
                 </div>
                 <div className="right">
                     <Link to="/bookings" className="headerButton">

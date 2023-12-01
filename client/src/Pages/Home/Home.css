@@ -19,13 +19,10 @@
     /* Prevent boxes from shrinking */
 }
 
-
-
-
-
-
-
-
+.appHeader.left img {
+    width: 30px;
+    height: 10px;
+}
 
 /* Media query for smaller screens (e.g., mobile devices) */
 @media (max-width: 500px) {
