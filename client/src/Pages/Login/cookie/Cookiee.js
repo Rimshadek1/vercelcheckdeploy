@@ -12,7 +12,7 @@ const CookieConsent = () => {
 
     return (
         showBanner && (
-            <div className="cookie-consent">
+            <div className="cookie-consent rounded-5">
                 <p>This website uses cookies to ensure you get the best experience.</p>
                 <button className='btn btn-warning' onClick={acceptCookies}>Accept All Cookies In Settings</button>
             </div>
