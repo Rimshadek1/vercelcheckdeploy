@@ -167,7 +167,6 @@ function Home() {
 
     useEffect(() => {
         axios.get('/all-images-proofs').then((res) => {
-            console.log(res.data.data); // Log the entire response data
             if (res.data && Array.isArray(res.data.data)) {
                 setUserImage(res.data.data);
             } else {
@@ -257,10 +256,13 @@ function Home() {
     }, []);
     //site details
     useEffect(() => {
-        if (role === 'captain' || 'admin' || 'main-boy') {
+        if (role === 'captain' || role === 'admin' || role === 'main-boy') {
             setShowButton(true);
+        } else {
+            setShowButton(false);
         }
     }, [role]);
+
     function handleClick() {
         alert('app is under proccessing, please wait until the work is over!!')
     }
@@ -274,7 +276,6 @@ function Home() {
             setIsEvent(bookedEvents);
         }).catch(err => console.log(err));
     }, []);
-    console.log(role);
     return (
         <div>
 

@@ -38,7 +38,6 @@ function Settings() {
     }, []);
     useEffect(() => {
         axios.get('/all-images-proofs').then((res) => {
-            console.log(res.data.data); // Log the entire response data
             if (res.data && Array.isArray(res.data.data)) {
                 setUserImage(res.data.data);
             } else {

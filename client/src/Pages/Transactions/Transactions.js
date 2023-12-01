@@ -48,7 +48,6 @@ function Transactions() {
         axios.get('/withdrawf')
             .then((res) => {
                 if (res.data.status === 'success') {
-                    console.log(res.data.details);
                     setDetailsWithdraw(res.data.details);
                 }
             })
@@ -59,7 +58,6 @@ function Transactions() {
         axios.get('/te')
             .then((res) => {
                 if (res.data.status === 'success') {
-                    console.log(res.data.details);
                     setDetailsTe(res.data.details);
                 } else {
                     alert('not fetch Te');
