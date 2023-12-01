@@ -288,7 +288,7 @@ function Home() {
                             src="logo/tafcon.png"
                             alt="logo"
                             className="logo"
-                            style={{ width: '100px', height: '50px' }}
+                            style={{ width: '150px', height: '50px' }}
                         />
                     </div>
 
