@@ -14,7 +14,7 @@ const CookieConsent = () => {
         showBanner && (
             <div className="cookie-consent">
                 <p>This website uses cookies to ensure you get the best experience.</p>
-                <button onClick={acceptCookies}>Accept All Cookies</button>
+                <button className='btn btn-warning' onClick={acceptCookies}>Accept All Cookies In Settings</button>
             </div>
         )
     );
