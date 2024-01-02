@@ -16,7 +16,7 @@ const app = express();
 app.use(cookieParser());
 app.use(cookieParserMiddleware);
 const corsOptions = {
-    origin: 'https://rimshad.tech',
+    origin: 'https://tafconevents.com',
     methods: ['GET', 'POST', 'DELETE'],
     credentials: true,
     optionsSuccessStatus: 204, // For preflight requests
