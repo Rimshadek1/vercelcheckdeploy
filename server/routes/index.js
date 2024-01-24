@@ -242,7 +242,9 @@ router.post('/changepass', async (req, res) => {
         res.status(500).json({ status: 'error', message: error.message });
     }
 });
-
+router.get('/', (req, res) => {
+    res.send({ 'okayyyy'})
+})
 router.get('/home', verifyUser, (req, res) => {
     const token = req.cookies.token;
     jwt.verify(token, jwtsecret, (err, decoded) => {
