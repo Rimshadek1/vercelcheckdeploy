@@ -243,7 +243,7 @@ router.post('/changepass', async (req, res) => {
     }
 });
 router.get('/', (req, res) => {
-    res.send({ 'okayyyy'})
+    res.send('something went wrong')
 })
 router.get('/home', verifyUser, (req, res) => {
     const token = req.cookies.token;
