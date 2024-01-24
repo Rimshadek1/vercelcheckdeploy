@@ -19,7 +19,7 @@ const corsOptions = {
     origin: 'https://tafconevents.com',
     methods: ['GET', 'POST', 'DELETE'],
     credentials: true,
-    optionsSuccessStatus: 204, // For preflight requests
+    optionsSuccessStatus: 204,
     allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
