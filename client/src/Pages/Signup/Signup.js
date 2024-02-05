@@ -20,10 +20,10 @@ function Signup() {
     const navigate = useNavigate()
     //image manage
     // Image size limit in kilobytes (KB)
-    const imageSizeLimitKB = 200;
+    const imageSizeLimitKB = 1024;
 
     // Proof size limit in kilobytes (KB)
-    const proofSizeLimitKB = 200;
+    const proofSizeLimitKB = 1024;
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -44,7 +44,7 @@ function Signup() {
                 reader.readAsDataURL(file);
             } else {
                 // File size exceeds the limit, show an error or take appropriate action
-                alert('Image size must be 200 KB or less, Please compress your image');
+                alert('Image size must be 1 MB or less. Please compress your image.');
                 // You can clear the input if needed
                 e.target.value = null;
             }
@@ -71,7 +71,7 @@ function Signup() {
                 reader.readAsDataURL(file);
             } else {
                 // File size exceeds the limit, show an error or take appropriate action
-                alert('Proof size must be 200 KB or less, Please compress your image');
+                alert('Proof size must be 1 MB or less. Please compress your image.');
                 // You can clear the input if needed
                 e.target.value = null;
             }
@@ -260,7 +260,7 @@ function Signup() {
                                             placeholder="status"
                                         >
                                             <option >Select</option>
-                                            <option value="Studing">Studing</option>
+                                            <option value="Studing">Studying</option>
                                             <option value="Working">Working</option>
                                             <option value="Free">Free</option>
                                         </select>
@@ -287,7 +287,7 @@ function Signup() {
                                 </div>
                                 <div className="form-group basic">
                                     <div className="input-wrapper">
-                                        <label className="label" htmlFor="password1">Password (must contain at least one alphabet, one number, one special character, and be a minimum of 6 characters).</label>
+                                        <label className="label" htmlFor="password1">Password (must be at least 6 characters)</label>
                                         <input
                                             type="password"
                                             required
@@ -297,7 +297,7 @@ function Signup() {
                                             autoComplete="off"
                                             placeholder="Your Password"
                                             name="password1"
-                                            pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,20}$"
+                                            pattern=".{6,}"
                                         />
                                     </div>
                                 </div>
