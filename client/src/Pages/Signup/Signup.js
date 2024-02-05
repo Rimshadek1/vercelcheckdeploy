@@ -306,7 +306,7 @@ function Signup() {
                                 <img alt='Add your profile please' width='200px' height='200px' src={image}></img>
                                 <div className="form-group basic">
                                     <div className="input-wrapper">
-                                        <label className="label" htmlFor="image">Full size Photo (size below 200 kb only accepted)</label>
+                                        <label className="label" htmlFor="image">Full size Photo (size below 1 MB only accepted)</label>
                                         <input
                                             type="file"
                                             required
@@ -324,7 +324,7 @@ function Signup() {
                                 <img alt='Add your Proof please' width='200px' height='200px' src={proof}></img>
                                 <div className="form-group basic">
                                     <div className="input-wrapper">
-                                        <label className="label" htmlFor="proof">Adhaar/Driving lisence (both-sides) (size below 200 kb only accepted)</label>
+                                        <label className="label" htmlFor="proof">Adhaar/Driving lisence (both-sides) (size below 1 MB only accepted)</label>
                                         <input
                                             type="file"
                                             required
