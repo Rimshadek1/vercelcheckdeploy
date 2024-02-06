@@ -147,13 +147,15 @@ module.exports = {
     getEmpveriInfo: (req, res) => {
         db.get().collection(collection.verifyCollection).find().toArray()
             .then((users) => {
-                res.json(users); // Send events data as JSON response
+                console.log("Successfully fetched employee verification information:", users);
+                res.json(users);
             })
             .catch((error) => {
-                console.error(error);
-                res.status(500).json({ error: 'Internal server error' }); // Handle errors and send an error response
+                console.error("Error fetching employee verification information:", error);
+                res.status(500).json({ error: 'Internal server error' });
             });
-    },
+    }
+    ,
     getcalander: (req, res) => {
         db.get().collection(collection.eventdateCollection).find().toArray().then((events) => {
             res.json({ events })
