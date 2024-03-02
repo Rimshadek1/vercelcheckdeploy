@@ -233,7 +233,7 @@ router.post('/changepass', async (req, res) => {
 router.get('/', (req, res) => {
     res.send('something went wrong')
 })
-router.get('/home', verifyUser, (req, res) => {
+router.get('/home', (req, res) => {
     const token = req.cookies.token;
     jwt.verify(token, jwtsecret, (err, decoded) => {
         try {
@@ -469,7 +469,7 @@ router.get('/isBooked', (req, res) => {
 
 //admin routers
 
-router.get('/viewevents', verifyAdmin, (req, res) => {
+router.get('/viewevents', (req, res) => {
     const token = req.cookies.token;
     res.status(200).send('please_reload');
 });
