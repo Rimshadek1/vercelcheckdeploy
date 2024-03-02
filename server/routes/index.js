@@ -10,6 +10,7 @@ require('dotenv').config();
 const jwtsecret = process.env.JWTSECRET
 const mongoUrl = process.env.mongoUrl;
 const { MongoClient } = require('mongodb');
+const { Console } = require('console');
 
 //middlewire
 const verifyUser = (req, res, next) => {
@@ -54,7 +55,6 @@ const verifyAdmin = (req, res, next) => {
             if (err) {
                 return res.json({ error: 'Error with token' });
             } else {
-
                 if (decoded.role === 'admin') {
                     next();
                 } else {
@@ -173,20 +173,15 @@ router.post('/login', (req, res) => {
 
 
 router.get('/profile', (req, res) => {
-    console.log('Request object:', req);
-    console.log('Cookies:', req.cookies);
 
     try {
         const token = req.cookies.token;
-        console.log('Token:', token);
-
         if (token) {
             jwt.verify(token, jwtsecret, {}, (err, userData) => {
                 if (err) {
                     console.error('JWT Verification Error:', err);
                     res.status(401).json('Invalid token');
                 } else {
-                    console.log('Decoded User Data:', userData);
                     res.json({
                         userData
                     });
@@ -477,7 +472,6 @@ router.get('/isBooked', (req, res) => {
 
 router.get('/viewevents', verifyAdmin, (req, res) => {
     const token = req.cookies.token;
-    console.log(token);
     res.status(200).send('please_reload');
 });
 
