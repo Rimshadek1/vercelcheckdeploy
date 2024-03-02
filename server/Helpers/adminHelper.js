@@ -137,17 +137,16 @@ module.exports = {
     getEmpInfo: (req, res) => {
         db.get().collection(collection.userCollection).find().toArray()
             .then((users) => {
-                res.json(users); // Send events data as JSON response
+                res.json(users);
             })
             .catch((error) => {
                 console.error(error);
-                res.status(500).json({ error: 'Internal server error' }); // Handle errors and send an error response
+                res.status(500).json({ error: 'Internal server error' });
             });
     },
     getEmpveriInfo: (req, res) => {
         db.get().collection(collection.verifyCollection).find().toArray()
             .then((users) => {
-                console.log("Successfully fetched employee verification information:", users);
                 res.json(users);
             })
             .catch((error) => {
@@ -161,7 +160,7 @@ module.exports = {
             res.json({ events })
         }).catch((error) => {
             console.error(error);
-            res.status(500).json({ error: 'Internal server error' }); // Handle errors and send an error response
+            res.status(500).json({ error: 'Internal server error' });
         });
 
     },

@@ -65,7 +65,6 @@ function VerifyEmpl() {
             }
         });
     }, []);
-    console.log(userImage);
     return (
         <div>
             <section>

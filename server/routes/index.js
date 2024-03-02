@@ -122,9 +122,8 @@ router.post('/register', async (req, res) => {
 
 router.get('/all-images-proofs', async (req, res) => {
     try {
-        console.log('1');
         const combinedArray = await userHelper.findImage();
-        const encodedImages = combinedArray.map(item => ({
+        const encodedImages = await combinedArray.map(item => ({
             userId: item.userId,
             data: item.data.toString('base64'),
             image: item.image

@@ -64,13 +64,10 @@ module.exports = {
     findImage: async () => {
         const profilePromise = db.get().collection(collection.imageCollection).find({}).toArray();
         const proofPromise = db.get().collection(collection.proofCollection).find({}).toArray();
-        console.log('Profile:', profilePromise);
-        console.log('Proof:', proofPromise);
         try {
             // Wait for both promises to resolve
             const [profile, proof] = await Promise.all([profilePromise, proofPromise]);
-            console.log('Profile:', profile);
-            console.log('Proof:', proof);
+
             // Combine the results into a single array with user IDs
             const combinedArray = [...profile.map(item => ({ userId: item.userId, data: item.data, image: item.image })),
             ...proof.map(item => ({ userId: item.userId, data: item.data, image: item.image }))];
