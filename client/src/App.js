@@ -40,9 +40,9 @@ import Landing from './Pages/Index/landing/Landing';
 import Career from './Pages/Index/career/Career';
 
 function App() {
-  // axios.defaults.withCredentials = true;
+  axios.defaults.withCredentials = true;
   axios.defaults.baseURL = process.env.REACT_APP_BASE_URL
-  axios.defaults.baseURL = "http://localhost:3001"
+  // axios.defaults.baseURL = "http://localhost:3001"
 
   return (
     <div>
