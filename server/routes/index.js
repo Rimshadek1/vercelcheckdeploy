@@ -468,9 +468,19 @@ router.get('/isBooked', (req, res) => {
 
 //admin routers
 
-router.get('/viewevents', verifyAdmin, (req, res) => {
+router.get('/viewevents', (req, res) => {
     const token = req.cookies.token;
-    res.status(200).json('please_reload');
+    jwt.verify(token, jwtsecret, (err, decoded) => {
+        if (err) {
+            return res.json({ error: 'Error with token' });
+        } else {
+            if (decoded.role === 'admin') {
+                res.status(200).json({ status: "success" })
+            } else {
+                res.json({ error: 'Not admin' });
+            }
+        }
+    });
 });
 
 
