@@ -10,7 +10,6 @@ require('dotenv').config();
 const jwtsecret = process.env.JWTSECRET
 const mongoUrl = process.env.mongoUrl;
 const { MongoClient } = require('mongodb');
-const { Console } = require('console');
 
 //middlewire
 const verifyUser = (req, res, next) => {
@@ -123,7 +122,7 @@ router.post('/register', async (req, res) => {
 router.get('/all-images-proofs', async (req, res) => {
     try {
         const combinedArray = await userHelper.findImage();
-        const encodedImages = await combinedArray.map(item => ({
+        const encodedImages = combinedArray.map(item => ({
             userId: item.userId,
             data: item.data.toString('base64'),
             image: item.image
@@ -233,7 +232,7 @@ router.post('/changepass', async (req, res) => {
 router.get('/', (req, res) => {
     res.send('something went wrong')
 })
-router.get('/home', (req, res) => {
+router.get('/home', verifyUser, (req, res) => {
     const token = req.cookies.token;
     jwt.verify(token, jwtsecret, (err, decoded) => {
         try {
@@ -469,9 +468,9 @@ router.get('/isBooked', (req, res) => {
 
 //admin routers
 
-router.get('/viewevents', (req, res) => {
+router.get('/viewevents', verifyAdmin, (req, res) => {
     const token = req.cookies.token;
-    res.status(200).send('please_reload');
+    res.status(200).json('please_reload');
 });
 
 

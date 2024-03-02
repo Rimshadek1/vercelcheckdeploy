@@ -21,7 +21,7 @@ function Viewevents() {
     useEffect(() => {
         axios.get('/viewevents')
             .then(res => {
-                if (res.data === 'please_reload') {
+                if (res.status === 200) {
                     navigate('/viewevents');
                 } else {
                     alert('Status failed');
