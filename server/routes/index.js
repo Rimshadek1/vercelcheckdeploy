@@ -137,33 +137,27 @@ router.get('/all-images-proofs', async (req, res) => {
 });
 router.post('/login', (req, res) => {
     userHelper.doLogin(req.body)
-        .then(async (response) => {
+        .then((response) => {
             if (response.status) {
-                const token = await jwt.sign({
+                jwt.sign({
                     number: response.user.number,
                     role: response.user.role,
                     name: response.user.name,
                     id: response.user._id
-                }, jwtsecret, { expiresIn: '1d' });
+                }, jwtsecret,
+                    {},
+                    (err, token) => {
+                        if (err) {
+                            console.error(err);
+                            return res.status(500).json({ error: 'Error generating token' });
+                        }
+                        res.cookie('token', token, { sameSite: 'none', secure: true });
 
-                const cookieOptions = {
-                    httpOnly: true,
-                    secure: true,
-                    sameSite: 'None',
-                    id: response.user._id,
-                    number: response.user.number,
-                    role: response.user.role,
-                    name: response.user.name,
-                };
-
-                try {
-                    res.cookie('token', token, cookieOptions);
-                } catch (error) {
-                    console.log(error);
-                }
+                        return res.status(200).json({ status: 'success', token, role: response.user.role, id: response.user._id });
+                    }
+                );
 
 
-                res.json({ status: 'success', role: response.user.role });
             } else {
                 res.json({ status: 'error', message: response.error });
             }
