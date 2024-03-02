@@ -483,14 +483,25 @@ router.get('/viewevents', (req, res) => {
     });
 });
 
-
-router.get('/viewevent', verifyService, adminHelper.getAllEvents);
+router.get('/viewevent', adminHelper.getAllEvents);
 router.delete('/admin/delete-event/:eventId', verifyAdmin, (req, res) => {
-    const eventId = req.params.eventId;
-    adminHelper.deleteEvent(eventId)
-        .then((response) => {
-            res.json({ status: 'ok' });
-        })
+    const token = req.cookies.token;
+    jwt.verify(token, jwtsecret, (err, decoded) => {
+        if (err) {
+            return res.json({ error: 'Error with token' });
+        } else {
+            if (decoded.role === 'admin') {
+                const eventId = req.params.eventId;
+                adminHelper.deleteEvent(eventId)
+                    .then((response) => {
+                        res.json({ status: 'ok' });
+                    })
+            } else {
+                res.json({ error: 'Not admin' });
+            }
+        }
+    });
+
 });
 router.delete('/notification/:eventId', verifyAdmin, (req, res) => {
     const eventId = req.params.eventId;
@@ -511,26 +522,63 @@ router.delete('/deleteemp/:userId', verifyAdmin, (req, res) => {
 
     res.json({ status: 'ok' });
 });
-router.get('/editbutton/:eventId', verifyAdmin, async (req, res) => {
-    let event = await adminHelper.getEventDetails(req.params.eventId)
-    if (event) {
-        res.json({ event, status: 'ok' })
-    }
-})
-router.post('/editbutton/:eventId', verifyAdmin, (req, res) => {
-    adminHelper.updateEvent(req.params.eventId, req.body).then((response) => {
-        res.json({ status: 'updated' })
-    })
-})
-router.post('/addevent', verifyAdmin, async (req, res) => {
-    try {
+router.get('/editbutton/:eventId', async (req, res) => {
+    const token = req.cookies.token;
+    jwt.verify(token, jwtsecret, async (err, decoded) => {
+        if (err) {
+            return res.json({ error: 'Error with token' });
+        } else {
+            if (decoded.role === 'admin') {
+                let event = await adminHelper.getEventDetails(req.params.eventId)
+                if (event) {
+                    res.json({ event, status: 'ok' })
+                }
+            } else {
+                res.json({ error: 'Not admin' });
+            }
+        }
+    });
 
-        const response = await adminHelper.addEvent(req.body);
-        res.json({ status: 'ok' });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'An error occurred while adding the event' });
-    }
+})
+router.post('/editbutton/:eventId', (req, res) => {
+    const token = req.cookies.token;
+    jwt.verify(token, jwtsecret, (err, decoded) => {
+        if (err) {
+            return res.json({ error: 'Error with token' });
+        } else {
+            if (decoded.role === 'admin') {
+                adminHelper.updateEvent(req.params.eventId, req.body).then((response) => {
+                    res.json({ status: 'updated' })
+                })
+            } else {
+                res.json({ error: 'Not admin' });
+            }
+        }
+    });
+
+})
+router.post('/addevent', async (req, res) => {
+    const token = req.cookies.token;
+    jwt.verify(token, jwtsecret, (err, decoded) => {
+        if (err) {
+            return res.json({ error: 'Error with token' });
+        } else {
+            if (decoded.role === 'admin') {
+                try {
+
+                    adminHelper.addEvent(req.body);
+                    res.json({ status: 'ok' });
+                } catch (error) {
+                    console.error(error);
+                    res.status(500).json({ error: 'An error occurred while adding the event' });
+                }
+            } else {
+                res.json({ error: 'Not admin' });
+            }
+        }
+    });
+
+
 });
 router.get('/viewuser', verifyAdmin, adminHelper.getEmpInfo)
 router.get('/edituser/:userId', verifyAdmin, async (req, res) => {
